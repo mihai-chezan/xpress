@@ -33,10 +33,16 @@ public class DBRepository implements Repository {
     public List<VoteEntity> getVotes(Filter queryVote) {
         Session currentSession = sessionFactory.getCurrentSession();
         Criteria criteria = currentSession.createCriteria(VoteEntity.class);
-        criteria.add(Expression.eq("tag", queryVote.getTag()));
-        criteria.add(Expression.eq("mood", queryVote.getMood()));
-        Interval interval = Utils.getIntervalFormTimeEnum(queryVote.getTime());
-        criteria.add(Restrictions.between("time", interval.getStartMillis(), interval.getEndMillis()));
+        if (queryVote.getTag() != null) {
+            criteria.add(Expression.eq("tag", queryVote.getTag()));
+        }
+        if (queryVote.getMood() != null) {
+            criteria.add(Expression.eq("mood", queryVote.getMood()));
+        }
+        if (queryVote.getTime() != null) {
+            Interval interval = Utils.getIntervalFormTimeEnum(queryVote.getTime());
+            criteria.add(Restrictions.between("time", interval.getStartMillis(), interval.getEndMillis()));
+        }
 
         return criteria.list();
     }
