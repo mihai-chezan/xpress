@@ -1,8 +1,13 @@
 package xpress.retrieve;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.testng.Assert.assertTrue;
+import org.mockito.Mockito;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import xpress.Mood;
+import xpress.TagCloud;
+import xpress.storage.Filter;
+import xpress.storage.Repository;
+import xpress.storage.entity.VoteEntity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,15 +15,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.mockito.Mockito;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import xpress.Mood;
-import xpress.TagCloud;
-import xpress.Vote;
-import xpress.storage.Filter;
-import xpress.storage.Repository;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertTrue;
 
 public class TagCloudRetrieverTest {
 
@@ -35,16 +34,21 @@ public class TagCloudRetrieverTest {
     public void testMoreVotesMoreWeight() throws Exception {
         long now = Calendar.getInstance().getTimeInMillis();
         String tag1 = "biscuits";
-        List<Vote> returnedVotes = new ArrayList<>();
+        List<VoteEntity> returnedVotes = new ArrayList<>();
+
         for (int i = 0; i < 10; i++) {
-            Vote v = new Vote(Mood.HAPPY, tag1);
+            VoteEntity v = new VoteEntity();
+            v.setMood(Mood.HAPPY);
+            v.setTag(tag1);
             v.setTime(now);
             returnedVotes.add(v);
         }
         String tag2 = "other biscuits";
-        Vote v2 = new Vote(Mood.HAPPY, tag2);
+        VoteEntity v2 = new VoteEntity();
+        v2.setMood(Mood.HAPPY);
+        v2.setTag(tag2);
         v2.setTime(now);
-        Vote singleVote = v2;
+        VoteEntity singleVote = v2;
         returnedVotes.add(singleVote);
 
         when(mockRepo.getVotes(Mockito.any(Filter.class))).thenReturn(returnedVotes);
@@ -59,14 +63,18 @@ public class TagCloudRetrieverTest {
     public void testMoreRecentMoreWeight() throws Exception {
         String tagForOlderVote = "biscuits";
         //one older vote that happened 44 minutes ago
-        Vote v1 = new Vote(Mood.HAPPY, tagForOlderVote);
+        VoteEntity v1 = new VoteEntity();
+        v1.setMood(Mood.HAPPY);
+        v1.setTag(tagForOlderVote);
         v1.setTime(Calendar.getInstance().getTimeInMillis() - TimeUnit.MINUTES.toMillis(44));
-        Vote olderVote = v1;
+        VoteEntity olderVote = v1;
 
         String tagForRecentVote = "muffins";
-        Vote v2 = new Vote(Mood.HAPPY, tagForRecentVote);
+        VoteEntity v2 = new VoteEntity();
+        v2.setMood(Mood.HAPPY);
+        v2.setTag(tagForRecentVote);
         v2.setTime(Calendar.getInstance().getTimeInMillis());
-        Vote recentVote = v2;
+        VoteEntity recentVote = v2;
 
         when(mockRepo.getVotes(Mockito.any(Filter.class))).thenReturn(Arrays.asList(recentVote, olderVote));
         TagCloud tags = tagCloudRetriever.retrieveTagCloudsFor(Mood.HAPPY);

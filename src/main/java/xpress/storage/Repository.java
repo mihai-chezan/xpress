@@ -1,7 +1,6 @@
 package xpress.storage;
 
-import xpress.Vote;
-import xpress.storage.Filter;
+import xpress.storage.entity.VoteEntity;
 
 import java.util.List;
 
@@ -10,7 +9,7 @@ import java.util.List;
  */
 public interface Repository {
 
-    void saveVote(Vote vote);
+    void saveVote(VoteEntity voteEntity);
 
-    List<Vote> getVotes(Filter queryVote);
+    List<VoteEntity> getVotes(Filter queryVote);
 }

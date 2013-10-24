@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.yammer.metrics.annotation.Timed;
 import xpress.storage.Repository;
+import xpress.storage.entity.VoteEntity;
 
 /**
  * @author mcq
@@ -29,7 +30,7 @@ public class VoteResource {
 
 	@POST
 	@Timed
-	public VoteResponse addVote(Vote vote) {
+	public VoteResponse addVote(VoteEntity vote) {
 	    vote.setTime(System.currentTimeMillis());
         repository.saveVote(vote);
 		return new VoteResponse(1, "ok");

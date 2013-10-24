@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 import xpress.GraphResponse.GraphResponseElement;
 import xpress.storage.Filter;
 import xpress.storage.Repository;
+import xpress.storage.entity.VoteEntity;
 
 /**
  * @author mcq
@@ -39,10 +40,10 @@ public class MoodGraphGenerator {
         return new GraphResponse(series);
     }
 
-    private List<GraphResponseElement> generateMoodElements(TimeEnum interval, List<Vote> votes) {
+    private List<GraphResponseElement> generateMoodElements(TimeEnum interval, List<xpress.Vote> votes) {
         // we are not guaranteed that votes are sorted so to make sure we Sort (slow!!); also make defensive copy so
         // that we don't generate side effects to Repo
-        List<Vote> sortedVotes = new ArrayList<>(votes);
+        List<xpress.Vote> sortedVotes = new ArrayList<>(votes);
         Collections.sort(votes);
         long splitInterval = getSplitInterval(interval);
         // votes are sparse so we must find out max number of datapoints, and for moods that don't have votes for a
@@ -68,7 +69,7 @@ public class MoodGraphGenerator {
         int countHappy = 0;
         int countUnhappy = 0;
         int countNeutral = 0;
-        for (Vote v : sortedVotes) {
+        for (xpress.Vote v : sortedVotes) {
             int newIndex = (int) ((v.getTime() - minTime) % totalNumberOfDatapoints);
             if (newIndex != index) {
                 happyData.add(index, countHappy);
@@ -100,10 +101,17 @@ public class MoodGraphGenerator {
         return Arrays.asList(new GraphResponseElement[] { happyElement, unhappyElement, neutralElement });
     }
 
-    private List<Vote> getVotes(TimeEnum interval) {
+    private List<xpress.Vote> getVotes(TimeEnum interval) {
         Filter f = new Filter();
         f.setTime(interval);
-        return repo.getVotes(f);
+        List<xpress.Vote> result = new ArrayList<>();
+        final List<VoteEntity> voteEntities = repo.getVotes(f);
+        for (VoteEntity voteEntity : voteEntities) {
+            xpress.Vote v = new xpress.Vote(voteEntity.getMood(), voteEntity.getTag());
+            v.setTime(voteEntity.getTime());
+            result.add(v);
+        }
+        return result;
     }
 
     private long getSplitInterval(TimeEnum interval) {
