@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author mcq
- *
+ *       a
  */
 public class Vote {
 	@JsonProperty
