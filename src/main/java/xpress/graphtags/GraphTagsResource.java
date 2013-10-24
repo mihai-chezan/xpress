@@ -14,6 +14,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.springframework.stereotype.Controller;
 import xpress.ChartType;
 import xpress.Mood;
 import xpress.TimeEnum;
@@ -23,10 +24,8 @@ import com.yammer.metrics.annotation.Timed;
 
 @Path("/graphs/tags")
 @Produces(MediaType.APPLICATION_JSON)
-@Component
 public class GraphTagsResource {
 
-    @Autowired
     private TagRetriever tagRetriever;
 
     @GET

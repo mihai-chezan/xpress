@@ -6,6 +6,7 @@ package xpress;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import xpress.graphtags.GraphTagsResource;
+import xpress.graphtags.TagRetriever;
 import xpress.storage.InMemoryRepository;
 import xpress.storage.Repository;
 
@@ -34,13 +35,16 @@ public class XpressService extends Service<XpressConfiguration> {
     public void run(XpressConfiguration configuration, Environment environment) {
         ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
         Repository repository = ac.getBean(Repository.class);
+        TagRetriever tagRetriever = ac.getBean(TagRetriever.class);
 
         environment.addResource(new TagCloudResource());
         final VoteResource voteResource = new VoteResource(InMemoryRepository.getInstance());
         voteResource.setRepository(repository);
         environment.addResource(voteResource);
         environment.addResource(new MoodGraphResource(new MoodGraphGenerator(InMemoryRepository.getInstance())));
-        environment.addResource(new GraphTagsResource());
+        final GraphTagsResource resource = new GraphTagsResource();
+        resource.setTagRetriever(tagRetriever);
+        environment.addResource(resource);
 
     }
 
