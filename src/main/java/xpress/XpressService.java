@@ -7,6 +7,7 @@ import com.yammer.dropwizard.Service;
 import com.yammer.dropwizard.assets.AssetsBundle;
 import com.yammer.dropwizard.config.Bootstrap;
 import com.yammer.dropwizard.config.Environment;
+import xpress.storage.InMemoryRepository;
 
 /**
  * @author mcq
@@ -27,8 +28,11 @@ public class XpressService extends Service<XpressConfiguration> {
 	@Override
 	public void run(XpressConfiguration configuration, Environment environment) {
 		environment.addResource(new TagCloudResource());
-		environment.addResource(new VoteResource());
+        final VoteResource voteResource = new VoteResource();
+        voteResource.setRepository(InMemoryRepository.getInstance());
+        environment.addResource(voteResource);
 		environment.addResource(new MoodGraphResource());
+        environment.addResource(new GraphsTagsResource());
 	}
 
 }
