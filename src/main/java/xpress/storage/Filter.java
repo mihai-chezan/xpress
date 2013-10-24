@@ -1,4 +1,7 @@
-package xpress;
+package xpress.storage;
+
+import xpress.Mood;
+import xpress.TimeEnum;
 
 /**
  * @author sechelc
