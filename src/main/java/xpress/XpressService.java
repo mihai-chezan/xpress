@@ -27,6 +27,7 @@ public class XpressService extends Service<XpressConfiguration> {
 	@Override
 	public void run(XpressConfiguration configuration, Environment environment) {
 		environment.addResource(new TagCloudResource());
+		environment.addResource(new VoteResource());
 	}
 
 }
