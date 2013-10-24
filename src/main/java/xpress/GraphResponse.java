@@ -20,7 +20,7 @@ public class GraphResponse {
 		this.series = series;
 	}
 
-	public List<GraphResponseElement> getContent() {
+	public List<GraphResponseElement> getSeries() {
 		return series;
 	}
 	
