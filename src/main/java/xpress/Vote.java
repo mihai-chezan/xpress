@@ -15,14 +15,12 @@ public class Vote {
 	private final Mood mood;
 	@JsonProperty
 	private final String tag;
-    @JsonProperty
     private long time;
 
-    public Vote(@JsonProperty("mood") Mood mood, @JsonProperty("tag") String tag, @JsonProperty long time) {
+    public Vote(@JsonProperty("mood") Mood mood, @JsonProperty("tag") String tag) {
 		super();
 		this.mood = mood;
 		this.tag = tag;
-        this.time = time;
 	}
 	
 	public Mood getMood() {
@@ -35,5 +33,9 @@ public class Vote {
 
     public long getTime() {
         return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
     }
 }

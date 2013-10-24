@@ -22,10 +22,15 @@ import xpress.storage.Repository;
 public class VoteResource {
 
     private Repository repository;
+    
+    public VoteResource(Repository repository) {
+        this.repository = repository;
+    }
 
 	@POST
 	@Timed
 	public VoteResponse addVote(Vote vote) {
+	    vote.setTime(System.currentTimeMillis());
         repository.saveVote(vote);
 		return new VoteResponse(1, "ok");
 	}
