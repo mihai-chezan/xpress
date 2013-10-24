@@ -16,3 +16,4 @@ WebContent
 *.jar
 *.war
 *.ear
+/bin
