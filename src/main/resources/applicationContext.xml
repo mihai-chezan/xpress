@@ -11,6 +11,8 @@
     <context:component-scan base-package="xpress"/>
     <tx:annotation-driven/>
     <jdbc:embedded-database id="dataSource" type="HSQL">
+        <jdbc:script location="classpath:sql/create_tables.sql"/>
+        <jdbc:script location="classpath:sql/insert_data.sql"/>
     </jdbc:embedded-database>
 
     <bean id="sessionFactory"
@@ -20,7 +22,7 @@
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
-                <prop key="hibernate.hbm2ddl.auto">create</prop>
+                <!--<prop key="hibernate.hbm2ddl.auto">create</prop>-->
                 <prop key="hibernate.show_sql">true</prop>
             </props>
         </property>
