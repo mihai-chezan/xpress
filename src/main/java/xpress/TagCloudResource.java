@@ -16,7 +16,7 @@ import com.yammer.metrics.annotation.Timed;
 
 /**
  * @author mcq
- *
+ *  fancy comment
  */
 @Path("/tags/{mood}")
 @Produces(MediaType.APPLICATION_JSON)
