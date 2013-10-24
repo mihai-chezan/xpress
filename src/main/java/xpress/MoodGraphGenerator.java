@@ -4,6 +4,7 @@
 package xpress;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -33,46 +34,78 @@ public class MoodGraphGenerator {
     }
 
     public GraphResponse compute(TimeEnum interval) {
-        return generateGraph(interval, getVotes(interval, Mood.HAPPY), getVotes(interval, Mood.UNHAPPY), getVotes(interval, Mood.NEUTRAL));
-    }
-
-    private GraphResponse generateGraph(TimeEnum interval, List<Vote> happyVotes, List<Vote> unhappyVotes, List<Vote> neutralVotes) {
         List<GraphResponseElement> series = new ArrayList<>();
-        series.add(generateMoodElement(Mood.HAPPY, interval, happyVotes));
-        series.add(generateMoodElement(Mood.UNHAPPY, interval, unhappyVotes));
-        series.add(generateMoodElement(Mood.NEUTRAL, interval, neutralVotes));
+        series.addAll(generateMoodElements(interval, getVotes(interval)));
         return new GraphResponse(series);
     }
 
-    private GraphResponseElement generateMoodElement(Mood mood, TimeEnum interval, List<Vote> votes) {
-        List<Integer> data = new ArrayList<>();
-        GraphResponseElement result = new GraphResponseElement(mood.toString(), data);
+    private List<GraphResponseElement> generateMoodElements(TimeEnum interval, List<Vote> votes) {
+        // we are not guaranteed that votes are sorted so to make sure we Sort (slow!!); also make defensive copy so
+        // that we don't generate side effects to Repo
+        List<Vote> sortedVotes = new ArrayList<>(votes);
+        Collections.sort(votes);
         long splitInterval = getSplitInterval(interval);
-        Map<Long, Integer> counters = new HashMap<>();
-        for (Vote v:votes) {
-            Long index = v.getTime() / splitInterval;
-            Integer count = counters.get(index);
-            if (count == null) {
-                counters.put(index, 1);
-            } else {
-                counters.put(index, count + 1);
+        // votes are sparse so we must find out max number of datapoints, and for moods that don't have votes for a
+        // certain interval, put zero
+        long maxTime = sortedVotes.get(sortedVotes.size() - 1).getTime();
+        long minTime = sortedVotes.get(0).getTime();
+        long totalTimeSpan = maxTime - minTime;
+        long totalNumberOfDatapoints = (totalTimeSpan / splitInterval);
+        if ((totalNumberOfDatapoints * splitInterval) < totalTimeSpan) {
+            totalNumberOfDatapoints++;
+        }
+
+        List<Integer> happyData = new ArrayList<>();
+        GraphResponseElement happyElement = new GraphResponseElement(Mood.HAPPY.toString(), happyData);
+
+        List<Integer> unhappyData = new ArrayList<>();
+        GraphResponseElement unhappyElement = new GraphResponseElement(Mood.UNHAPPY.toString(), unhappyData);
+
+        List<Integer> neutralData = new ArrayList<>();
+        GraphResponseElement neutralElement = new GraphResponseElement(Mood.NEUTRAL.toString(), neutralData);
+
+        int index = 0;
+        int countHappy = 0;
+        int countUnhappy = 0;
+        int countNeutral = 0;
+        for (Vote v : sortedVotes) {
+            int newIndex = (int) ((v.getTime() - minTime) % totalNumberOfDatapoints);
+            if (newIndex != index) {
+                happyData.add(index, countHappy);
+                unhappyData.add(index, countUnhappy);
+                neutralData.add(index, countNeutral);
+                index = newIndex;
+                countHappy = 0;
+                countUnhappy = 0;
+                countNeutral = 0;
+            }
+            switch (v.getMood()) {
+            case HAPPY:
+                countHappy++;
+                break;
+            case UNHAPPY:
+                countUnhappy++;
+                break;
+            case NEUTRAL:
+                countNeutral++;
+                break;
+            default:
+                break;
             }
         }
-        ArrayList<Long> sortedKeys = new ArrayList<>(counters.keySet());
-        Collections.sort(sortedKeys);
-        for (Long key:sortedKeys) {
-            data.add(counters.get(key));
-        }
-        return result;
+        happyData.add(index, countHappy);
+        unhappyData.add(index, countUnhappy);
+        neutralData.add(index, countNeutral);
+
+        return Arrays.asList(new GraphResponseElement[] { happyElement, unhappyElement, neutralElement });
     }
 
-    private List<Vote> getVotes(TimeEnum interval, Mood mood) {
+    private List<Vote> getVotes(TimeEnum interval) {
         Filter f = new Filter();
         f.setTime(interval);
-        f.setMood(mood);
         return repo.getVotes(f);
     }
-    
+
     private long getSplitInterval(TimeEnum interval) {
         return splitIntervalMap.get(interval);
     }
