@@ -40,7 +40,7 @@ public class TagCloudRetrieverTest {
             returnedVotes.add(new Vote(Mood.HAPPY, tag1, now));
         }
         String tag2 = "other biscuits";
-        Vote singleVote = new Vote(Mood.HAPPY, tag2, now + 1000);
+        Vote singleVote = new Vote(Mood.HAPPY, tag2, now);
         returnedVotes.add(singleVote);
 
         when(mockRepo.getVotes(Mockito.any(Filter.class))).thenReturn(returnedVotes);
@@ -51,19 +51,19 @@ public class TagCloudRetrieverTest {
         assertTrue(weigthMoreVotes > weightLessWotes);
     }
 
-    @Test(enabled = false)
-    public void testMostRecentIsHigherThanLeastRecent() throws Exception {
-        String tag1 = "biscuits";
-        Vote olderVote = new Vote(Mood.HAPPY, tag1, Calendar.getInstance().getTimeInMillis());
+    @Test
+    public void testMoreRecentMoreWeight() throws Exception {
+        String tagForOlderVote = "biscuits";
+        //one older vote that happened 44 minutes ago
+        Vote olderVote = new Vote(Mood.HAPPY, tagForOlderVote, Calendar.getInstance().getTimeInMillis() - TimeUnit.MINUTES.toMillis(44));
 
-        TimeUnit.MILLISECONDS.sleep(100);
-        String tag2 = "same biscuits";
-        Vote recentVote = new Vote(Mood.HAPPY, tag2, Calendar.getInstance().getTimeInMillis());
+        String tagForRecentVote = "muffins";
+        Vote recentVote = new Vote(Mood.HAPPY, tagForRecentVote, Calendar.getInstance().getTimeInMillis());
 
         when(mockRepo.getVotes(Mockito.any(Filter.class))).thenReturn(Arrays.asList(recentVote, olderVote));
         TagCloud tags = tagCloudRetriever.retrieveTagCloudsFor(Mood.HAPPY);
-        Integer weightRecentVote = tags.getContent().get(tag1);
-        Integer weightOlderVote = tags.getContent().get(tag2);
+        Integer weightOlderVote = tags.getContent().get(tagForOlderVote);
+        Integer weightRecentVote = tags.getContent().get(tagForRecentVote);
         assertTrue(weightRecentVote > weightOlderVote);
     }
 
