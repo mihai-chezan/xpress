@@ -1,8 +1,6 @@
 package xpress.storage;
 
-import org.joda.time.Days;
 import org.joda.time.Interval;
-import org.joda.time.Period;
 import xpress.TimeEnum;
 import xpress.Vote;
 
@@ -12,7 +10,21 @@ import java.util.List;
 /**
  * @author sechelc
  */
-public class InMemoryRepositoryRepository implements Repository {
+public class InMemoryRepository implements Repository {
+
+    private static InMemoryRepository inMemoryRepository;
+
+    private InMemoryRepository(){
+
+    }
+
+    public static InMemoryRepository getInstance(){
+          if(inMemoryRepository ==null){
+              inMemoryRepository = new InMemoryRepository();
+          }
+        return inMemoryRepository;
+    }
+
     private List<Vote> voteList = new ArrayList<>();
     private final static long ONE_DAY = 1000*60*60*24;
     private final static long ONE_MONTH = ONE_DAY * 30;
