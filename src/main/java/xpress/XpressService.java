@@ -28,6 +28,7 @@ public class XpressService extends Service<XpressConfiguration> {
 	public void run(XpressConfiguration configuration, Environment environment) {
 		environment.addResource(new TagCloudResource());
 		environment.addResource(new VoteResource());
+		environment.addResource(new MoodGraphResource());
 	}
 
 }
