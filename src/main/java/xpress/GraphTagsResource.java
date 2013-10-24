@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -23,6 +24,21 @@ public class GraphTagsResource {
         return getDummyTags();
     }
 
+    @GET
+    @Timed
+    @Path("{tagName}/{period:(.+)?}")
+    public Map<String, Integer> getTagVotesDuringPeriod(@PathParam("tagName") String tagName, @PathParam("period") TimeEnum period) {
+        return getDummyPeriodTags();
+    }
+
+    @GET
+    @Timed
+    @Path("{tagName}/{period}/{chartType:(.+)?}")
+    public Map<String, Integer> getTagVotesDuringPeriodForChart(@PathParam("tagName") String tagName,
+            @PathParam("period") TimeEnum period, @PathParam("chartType") ChartType chartType) {
+        return getDummyPeriodTags();
+    }
+
     // TODO CP: remove this part
     private static final Random RANDOM_GENERATOR = new Random();
 
@@ -30,6 +46,14 @@ public class GraphTagsResource {
         Map<String, Integer> result = Maps.newConcurrentMap();
         for (Integer i = 0; i < 10; i++) {
             result.put(RandomStringUtils.randomAlphabetic(8), RANDOM_GENERATOR.nextInt(100));
+        }
+        return result;
+    }
+
+    private Map<String, Integer> getDummyPeriodTags() {
+        Map<String, Integer> result = Maps.newConcurrentMap();
+        for (Mood mood : Mood.values()) {
+            result.put(mood.name(), RANDOM_GENERATOR.nextInt(100));
         }
         return result;
     }
