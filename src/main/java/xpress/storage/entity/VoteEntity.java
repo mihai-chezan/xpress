@@ -20,7 +20,7 @@ public class VoteEntity {
     @Enumerated(EnumType.STRING)
     private Mood mood;
 
-    @Column(length = 200, nullable = true, unique = true)
+    @Column(length = 200, nullable = true, unique = false)
     private String tag;
 
     @Column
