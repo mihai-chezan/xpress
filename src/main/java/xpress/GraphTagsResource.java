@@ -15,7 +15,7 @@ import com.yammer.metrics.annotation.Timed;
 
 @Path("/graphs/tags")
 @Produces(MediaType.APPLICATION_JSON)
-public class GraphsTagsResource {
+public class GraphTagsResource {
 
     @GET
     @Timed
