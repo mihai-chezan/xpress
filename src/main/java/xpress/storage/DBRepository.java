@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.impl.SessionImpl;
 import org.joda.time.Interval;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,6 +34,8 @@ public class DBRepository implements Repository {
     public List<VoteEntity> getVotes(Filter queryVote) {
         Session currentSession = sessionFactory.getCurrentSession();
         Criteria criteria = currentSession.createCriteria(VoteEntity.class);
+        if(isEmpty(queryVote)){
+
         if (queryVote.getTag() != null) {
             criteria.add(Expression.eq("tag", queryVote.getTag()));
         }
@@ -45,6 +48,25 @@ public class DBRepository implements Repository {
         }
 
         return criteria.list();
+        }else{
+            return ((SessionImpl)currentSession).find("from VoteEntity");
+        }
+    }
+
+    private boolean isEmpty(Filter queryVote) {
+        return queryVote == null? true : !hasTagSet(queryVote) && !hasMoodSet(queryVote) && !hasTimeSet(queryVote);
+    }
+
+    private boolean hasTagSet(Filter queryVote) {
+        return (queryVote.getTag() != null);
+    }
+
+    private boolean hasMoodSet(Filter queryVote) {
+        return (queryVote.getMood() != null);
+    }
+
+    private boolean hasTimeSet(Filter queryVote) {
+        return (queryVote.getTime() != null);
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {
