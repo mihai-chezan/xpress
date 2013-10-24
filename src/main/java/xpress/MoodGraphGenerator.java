@@ -31,7 +31,9 @@ public class MoodGraphGenerator {
         splitIntervalMap.put(TimeEnum.ALL, TimeUnit.DAYS.toMillis(30));
         splitIntervalMap.put(TimeEnum.LAST_YEAR, TimeUnit.DAYS.toMillis(30));
         splitIntervalMap.put(TimeEnum.LAST_MONTH, TimeUnit.DAYS.toMillis(1));
+        splitIntervalMap.put(TimeEnum.LAST_WEEK, TimeUnit.HOURS.toMillis(6));
         splitIntervalMap.put(TimeEnum.LAST_DAY, TimeUnit.HOURS.toMillis(1));
+        splitIntervalMap.put(TimeEnum.LAST_HOUR, TimeUnit.MINUTES.toMillis(1));
     }
 
     public GraphResponse compute(TimeEnum interval) {
@@ -69,8 +71,8 @@ public class MoodGraphGenerator {
         int countHappy = 0;
         int countUnhappy = 0;
         int countNeutral = 0;
-        for (xpress.Vote v : sortedVotes) {
-            int newIndex = (int) ((v.getTime() - minTime) % totalNumberOfDatapoints);
+        for (Vote v : sortedVotes) {
+            int newIndex = (int) ((v.getTime() - minTime) / splitInterval);
             if (newIndex != index) {
                 happyData.add(index, countHappy);
                 unhappyData.add(index, countUnhappy);
