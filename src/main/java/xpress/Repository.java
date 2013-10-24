@@ -9,5 +9,5 @@ public interface Repository {
 
     void saveVote(Vote vote);
 
-    List<Vote> getVotes(Query queryVote);
+    List<Vote> getVotes(Filter queryVote);
 }

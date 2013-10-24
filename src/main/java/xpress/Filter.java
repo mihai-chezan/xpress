@@ -3,7 +3,7 @@ package xpress;
 /**
  * @author sechelc
  */
-public class Query {
+public class Filter {
     String tag;
     Mood mood;
     TimeEnum time;
