@@ -1,5 +1,6 @@
-package xpress;
+package xpress.graphtags;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -10,17 +11,28 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import xpress.ChartType;
+import xpress.Mood;
+import xpress.TimeEnum;
 
 import com.google.common.collect.Maps;
 import com.yammer.metrics.annotation.Timed;
 
 @Path("/graphs/tags")
 @Produces(MediaType.APPLICATION_JSON)
+@Component
 public class GraphTagsResource {
+
+    @Autowired
+    private TagRetriever tagRetriever;
 
     @GET
     @Timed
     public Map<String, Integer> getTags() {
+        List<String> tags = tagRetriever.retrieve(TimeEnum.LAST_MONTH);
         return getDummyTags();
     }
 
@@ -56,5 +68,9 @@ public class GraphTagsResource {
             result.put(mood.name(), RANDOM_GENERATOR.nextInt(100));
         }
         return result;
+    }
+
+    public void setTagRetriever(TagRetriever tagRetriever) {
+        this.tagRetriever = tagRetriever;
     }
 }
