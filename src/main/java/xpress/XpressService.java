@@ -29,10 +29,10 @@ public class XpressService extends Service<XpressConfiguration> {
     @Override
     public void run(XpressConfiguration configuration, Environment environment) {
         environment.addResource(new TagCloudResource());
-        final VoteResource voteResource = new VoteResource();
+        final VoteResource voteResource = new VoteResource(InMemoryRepository.getInstance());
         voteResource.setRepository(InMemoryRepository.getInstance());
         environment.addResource(voteResource);
-        environment.addResource(new MoodGraphResource());
+        environment.addResource(new MoodGraphResource(new MoodGraphGenerator(InMemoryRepository.getInstance())));
         environment.addResource(new GraphTagsResource());
     }
 
