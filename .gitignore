@@ -1,9 +1,14 @@
 .classpath
 .project
-.settings/
-target/
-logs/
+.settings
+.classpath
+target
+logs
+.idea
+*.iml
+*.ipr
 
+*.log
 *.class
 
 # Package Files #
