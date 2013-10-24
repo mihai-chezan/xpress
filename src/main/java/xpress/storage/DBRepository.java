@@ -34,7 +34,7 @@ public class DBRepository implements Repository {
     public List<VoteEntity> getVotes(Filter queryVote) {
         Session currentSession = sessionFactory.getCurrentSession();
         Criteria criteria = currentSession.createCriteria(VoteEntity.class);
-        if(isEmpty(queryVote)){
+        if(!isEmpty(queryVote)){
 
         if (queryVote.getTag() != null) {
             criteria.add(Expression.eq("tag", queryVote.getTag()));
