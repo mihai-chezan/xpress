@@ -1,32 +1,30 @@
 package xpress.storage;
 
-import org.joda.time.Interval;
-import xpress.TimeEnum;
-import xpress.Vote;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.joda.time.Interval;
+
+import xpress.TimeEnum;
+import xpress.Vote;
 
 /**
  * @author sechelc
  */
 public class InMemoryRepository implements Repository {
 
-    private static InMemoryRepository inMemoryRepository;
+    private static InMemoryRepository inMemoryRepository = new InMemoryRepository();
 
-    private InMemoryRepository(){
+    private InMemoryRepository() {
 
     }
 
-    public static InMemoryRepository getInstance(){
-          if(inMemoryRepository ==null){
-              inMemoryRepository = new InMemoryRepository();
-          }
+    public static InMemoryRepository getInstance() {
         return inMemoryRepository;
     }
 
     private List<Vote> voteList = new ArrayList<>();
-    private final static long ONE_DAY = 1000*60*60*24;
+    private final static long ONE_DAY = 1000 * 60 * 60 * 24;
     private final static long ONE_MONTH = ONE_DAY * 30;
     private final static long ONE_YEAR = ONE_MONTH * 12;
 
@@ -50,14 +48,14 @@ public class InMemoryRepository implements Repository {
                 applyTagQuery = true;
             }
 
-            if (queryVote.getTime()!=null){
+            if (queryVote.getTime() != null) {
                 applyTimeQuery = true;
             }
             boolean shouldAdd = true;
-            shouldAdd = applyMoodQuery ? vote.getMood().name().equals(queryVote.getMood().name()): shouldAdd;
-            shouldAdd = applyTagQuery ? vote.getTag().trim().equalsIgnoreCase(queryVote.getTag()): shouldAdd;
-            shouldAdd = applyTimeQuery ? isInTimeRange(vote.getTime(), queryVote.getTime()): shouldAdd;
-            if(shouldAdd){
+            shouldAdd = applyMoodQuery ? vote.getMood().name().equals(queryVote.getMood().name()) : shouldAdd;
+            shouldAdd = applyTagQuery ? vote.getTag().trim().equalsIgnoreCase(queryVote.getTag()) : shouldAdd;
+            shouldAdd = applyTimeQuery ? isInTimeRange(vote.getTime(), queryVote.getTime()) : shouldAdd;
+            if (shouldAdd) {
                 result.add(vote);
             }
         }
@@ -72,14 +70,14 @@ public class InMemoryRepository implements Repository {
 
     private Interval getIntervalFormTimeEnum(TimeEnum timeRange, long now) {
         switch (timeRange) {
-            case LAST_DAY:
-                return new Interval(now - ONE_DAY, now);
-            case LAST_MONTH:
-                return new Interval(now - ONE_MONTH, now);
-            case LAST_YEAR:
-                return new Interval(now - ONE_YEAR, now);
-            default:
-                return  new Interval(0 , now);
+        case LAST_DAY:
+            return new Interval(now - ONE_DAY, now);
+        case LAST_MONTH:
+            return new Interval(now - ONE_MONTH, now);
+        case LAST_YEAR:
+            return new Interval(now - ONE_YEAR, now);
+        default:
+            return new Interval(0, now);
 
         }
     }
