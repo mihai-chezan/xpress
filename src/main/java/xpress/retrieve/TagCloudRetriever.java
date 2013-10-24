@@ -4,11 +4,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import xpress.Filter;
 import xpress.Mood;
-import xpress.Repository;
 import xpress.TagCloud;
 import xpress.Vote;
+import xpress.storage.Filter;
+import xpress.storage.Repository;
 
 public class TagCloudRetriever {
 

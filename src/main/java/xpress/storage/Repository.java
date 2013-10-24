@@ -1,4 +1,7 @@
-package xpress;
+package xpress.storage;
+
+import xpress.Vote;
+import xpress.storage.Filter;
 
 import java.util.List;
 
