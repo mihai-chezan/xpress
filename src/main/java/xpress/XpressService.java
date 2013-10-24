@@ -4,6 +4,7 @@
 package xpress;
 
 import com.yammer.dropwizard.Service;
+import com.yammer.dropwizard.assets.AssetsBundle;
 import com.yammer.dropwizard.config.Bootstrap;
 import com.yammer.dropwizard.config.Environment;
 
@@ -20,6 +21,7 @@ public class XpressService extends Service<XpressConfiguration> {
 	@Override
 	public void initialize(Bootstrap<XpressConfiguration> bootstrap) {
 		bootstrap.setName("Xpress");
+		bootstrap.addBundle(new AssetsBundle("/assets/", "/"));
 	}
 
 	@Override
