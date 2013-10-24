@@ -1,9 +1,9 @@
 package xpress.storage;
 
-import java.util.List;
+import java.util.Map;
 
 public interface TagRepository {
 
-    List<String> getTags(Filter filter);
+    Map<String, Integer> getTags(Filter filter);
 
 }

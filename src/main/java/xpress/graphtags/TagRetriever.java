@@ -1,6 +1,6 @@
 package xpress.graphtags;
 
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,11 +15,10 @@ public class TagRetriever {
     @Autowired
     private TagRepository repository;
 
-    public List<String> retrieve(TimeEnum period) {
+    public Map<String, Integer> retrieve(TimeEnum period) {
         Filter filter = new Filter();
         filter.setTime(period);
-        List<String> tags = repository.getTags(filter);
-        return tags;
+        return repository.getTags(filter);
     }
 
     public void setRepository(TagRepository repository) {
