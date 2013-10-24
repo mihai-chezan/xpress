@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 
 import xpress.Mood;
 import xpress.TagCloud;
-import xpress.Vote;
+import xpress.storage.entity.VoteEntity;
 import xpress.storage.Filter;
 import xpress.storage.Repository;
 
@@ -61,24 +61,24 @@ public class TagCloudRetriever {
     public TagCloud retrieveTagCloudsFor(Mood mood) {
         Filter filter = new Filter();
         filter.setMood(mood);
-        List<Vote> votes = repo.getVotes(filter);
-        return buildTagCloudBasedOn(votes);
+        List<VoteEntity> voteEntities = repo.getVotes(filter);
+        return buildTagCloudBasedOn(voteEntities);
     }
 
-    private TagCloud buildTagCloudBasedOn(List<Vote> votes) {
+    private TagCloud buildTagCloudBasedOn(List<VoteEntity> voteEntities) {
         Map<String, Integer> map = new LinkedHashMap<>();
-        if (votes.isEmpty()) {
+        if (voteEntities.isEmpty()) {
             return new TagCloud(1, map);
         }
-        //Also keep track of oldest & most recent time used for votes, regardless of tag names etc..
-        long oldestTimeOfAll = votes.get(0).getTime();
-        long mostRecentTimeOfAll = votes.get(0).getTime();
+        //Also keep track of oldest & most recent time used for voteEntities, regardless of tag names etc..
+        long oldestTimeOfAll = voteEntities.get(0).getTime();
+        long mostRecentTimeOfAll = voteEntities.get(0).getTime();
         /**
-         * This map will collaps all votes by tagName. For each tag, it will holds the sum of votes, and the most recent time this tag was updated.
+         * This map will collaps all voteEntities by tagName. For each tag, it will holds the sum of voteEntities, and the most recent time this tag was updated.
          */
         Map<String, VoteSummary> collapsedStats = new HashMap<String, VoteSummary>();
-        for (Vote vote : votes) {
-            long voteTime = vote.getTime();
+        for (VoteEntity voteEntity : voteEntities) {
+            long voteTime = voteEntity.getTime();
             //if x is less than known oldest time..
             if (voteTime < oldestTimeOfAll) {
                 oldestTimeOfAll = voteTime;
@@ -87,13 +87,13 @@ public class TagCloudRetriever {
             if (mostRecentTimeOfAll < voteTime) {
                 mostRecentTimeOfAll = voteTime;
             }
-            //sum up the votes for each tag
-            String tagName = vote.getTag();
+            //sum up the voteEntities for each tag
+            String tagName = voteEntity.getTag();
             VoteSummary voteSummary = collapsedStats.get(tagName);
             if (voteSummary == null) {
-                voteSummary = new VoteSummary(tagName, 1, vote.getTime());
+                voteSummary = new VoteSummary(tagName, 1, voteEntity.getTime());
             } else {
-                voteSummary = new VoteSummary(tagName, voteSummary.getNumVotes() + 1, getMostRecentTimeForThisTag(vote.getTime(),
+                voteSummary = new VoteSummary(tagName, voteSummary.getNumVotes() + 1, getMostRecentTimeForThisTag(voteEntity.getTime(),
                         voteSummary.getMostRecentTime()));
             }
             collapsedStats.put(tagName, voteSummary);
