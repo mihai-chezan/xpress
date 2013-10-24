@@ -30,9 +30,12 @@ public class VoteResource {
 
 	@POST
 	@Timed
-	public VoteResponse addVote(VoteEntity vote) {
-	    vote.setTime(System.currentTimeMillis());
-        repository.saveVote(vote);
+	public VoteResponse addVote(Vote vote) {
+        VoteEntity voteEntity = new VoteEntity();
+        voteEntity.setTime(System.currentTimeMillis());
+        voteEntity.setTag(vote.getTag());
+        voteEntity.setMood(vote.getMood());
+        repository.saveVote(voteEntity);
 		return new VoteResponse(1, "ok");
 	}
 
