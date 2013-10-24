@@ -39,21 +39,25 @@ public class InMemoryRepository implements Repository {
         boolean applyMoodQuery = false;
         boolean applyTimeQuery = false;
         boolean applyTagQuery = false;
+        if (queryVote.getMood() != null) {
+            applyMoodQuery = true;
+        }
+        if (queryVote.getTag() != null) {
+            applyTagQuery = true;
+        }
+        if (queryVote.getTime() != null) {
+            applyTimeQuery = true;
+        }
         for (Vote vote : voteList) {
-            if (queryVote.getMood() != null) {
-                applyMoodQuery = true;
-            }
-
-            if (queryVote.getTag() != null) {
-                applyTagQuery = true;
-            }
-
-            if (queryVote.getTime() != null) {
-                applyTimeQuery = true;
-            }
             boolean shouldAdd = true;
-            shouldAdd = applyMoodQuery ? vote.getMood().name().equals(queryVote.getMood().name()) : shouldAdd;
+            shouldAdd = applyMoodQuery ? vote.getMood() == queryVote.getMood() : shouldAdd;
+            if (!shouldAdd) {
+                continue;
+            }
             shouldAdd = applyTagQuery ? vote.getTag().trim().equalsIgnoreCase(queryVote.getTag()) : shouldAdd;
+            if (!shouldAdd) {
+                continue;
+            }
             shouldAdd = applyTimeQuery ? isInTimeRange(vote.getTime(), queryVote.getTime()) : shouldAdd;
             if (shouldAdd) {
                 result.add(vote);

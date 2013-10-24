@@ -37,10 +37,14 @@ public class TagCloudRetrieverTest {
         String tag1 = "biscuits";
         List<Vote> returnedVotes = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            returnedVotes.add(new Vote(Mood.HAPPY, tag1, now));
+            Vote v = new Vote(Mood.HAPPY, tag1);
+            v.setTime(now);
+            returnedVotes.add(v);
         }
         String tag2 = "other biscuits";
-        Vote singleVote = new Vote(Mood.HAPPY, tag2, now + 1000);
+        Vote v2 = new Vote(Mood.HAPPY, tag2);
+        v2.setTime(now);
+        Vote singleVote = v2;
         returnedVotes.add(singleVote);
 
         when(mockRepo.getVotes(Mockito.any(Filter.class))).thenReturn(returnedVotes);
@@ -51,19 +55,23 @@ public class TagCloudRetrieverTest {
         assertTrue(weigthMoreVotes > weightLessWotes);
     }
 
-    @Test(enabled = false)
-    public void testMostRecentIsHigherThanLeastRecent() throws Exception {
-        String tag1 = "biscuits";
-        Vote olderVote = new Vote(Mood.HAPPY, tag1, Calendar.getInstance().getTimeInMillis());
+    @Test
+    public void testMoreRecentMoreWeight() throws Exception {
+        String tagForOlderVote = "biscuits";
+        //one older vote that happened 44 minutes ago
+        Vote v1 = new Vote(Mood.HAPPY, tagForOlderVote);
+        v1.setTime(Calendar.getInstance().getTimeInMillis() - TimeUnit.MINUTES.toMillis(44));
+        Vote olderVote = v1;
 
-        TimeUnit.MILLISECONDS.sleep(100);
-        String tag2 = "same biscuits";
-        Vote recentVote = new Vote(Mood.HAPPY, tag2, Calendar.getInstance().getTimeInMillis());
+        String tagForRecentVote = "muffins";
+        Vote v2 = new Vote(Mood.HAPPY, tagForRecentVote);
+        v2.setTime(Calendar.getInstance().getTimeInMillis());
+        Vote recentVote = v2;
 
         when(mockRepo.getVotes(Mockito.any(Filter.class))).thenReturn(Arrays.asList(recentVote, olderVote));
         TagCloud tags = tagCloudRetriever.retrieveTagCloudsFor(Mood.HAPPY);
-        Integer weightRecentVote = tags.getContent().get(tag1);
-        Integer weightOlderVote = tags.getContent().get(tag2);
+        Integer weightOlderVote = tags.getContent().get(tagForOlderVote);
+        Integer weightRecentVote = tags.getContent().get(tagForRecentVote);
         assertTrue(weightRecentVote > weightOlderVote);
     }
 
