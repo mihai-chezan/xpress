@@ -35,7 +35,15 @@ public class GraphTagsResource {
     @Timed
     @Path("{tagName}/{period:(.+)?}")
     public List<TagByMood> getTagVotesDuringPeriod(@PathParam("tagName") String tagName, @PathParam("period") TimeEnum period) {
-        return tagRetriever.retrieveSpecificTagsForPeriod(tagName, period);
+        return tagRetriever.retrieveSpecificTagForPeriod(tagName, period);
+    }
+
+    @GET
+    @Timed
+    @Path("/similar/{tagName}/{period:(.+)?}")
+    public List<TagByMood> getSimilarTagVotesDuringPeriod(@PathParam("tagName") String tagName,
+            @PathParam("period") TimeEnum period) {
+        return tagRetriever.retrieveSimilarTagsForPeriod(tagName, period);
     }
 
     @GET

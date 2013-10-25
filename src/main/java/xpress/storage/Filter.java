@@ -11,6 +11,7 @@ import xpress.graphtags.ChartType;
  */
 public class Filter {
     String tag;
+    boolean similarTags;
     Mood mood;
     TimeEnum time;
     ChartType chartType;
@@ -51,8 +52,17 @@ public class Filter {
         this.chartType = chartType;
     }
 
+    public boolean isSimilarTags() {
+        return similarTags;
+    }
+
+    public void setSimilarTags(boolean similarTags) {
+        this.similarTags = similarTags;
+    }
+
     public static final class Builder {
         String tag;
+        boolean similarTags;
         Mood mood;
         TimeEnum time;
         ChartType chartType;
@@ -62,6 +72,7 @@ public class Filter {
             if (tag != null) {
                 filter.setTag(tag);
             }
+            filter.setSimilarTags(similarTags);
             if (time != null) {
                 filter.setTime(time);
             }
@@ -91,6 +102,11 @@ public class Filter {
 
         public Builder chartType(ChartType chartType) {
             this.chartType = chartType;
+            return this;
+        }
+
+        public Builder withSimilarTags(boolean similarTags) {
+            this.similarTags = similarTags;
             return this;
         }
     }

@@ -25,12 +25,21 @@ public class TagRetriever {
         return repository.getTags(filter);
     }
 
-    public List<TagByMood> retrieveSpecificTagsForPeriod(String tag, TimeEnum inPeriod) {
+    public List<TagByMood> retrieveSpecificTagForPeriod(String tag, TimeEnum inPeriod) {
         TimeEnum period = inPeriod;
         if (inPeriod == null) {
             period = TimeEnum.LAST_MONTH;
         }
         Filter filter = new Filter.Builder().tag(tag).timeEnum(period).build();
+        return repository.getTags(filter);
+    }
+
+    public List<TagByMood> retrieveSimilarTagsForPeriod(String tag, TimeEnum inPeriod) {
+        TimeEnum period = inPeriod;
+        if (inPeriod == null) {
+            period = TimeEnum.LAST_MONTH;
+        }
+        Filter filter = new Filter.Builder().tag(tag).timeEnum(period).withSimilarTags(true).build();
         return repository.getTags(filter);
     }
 

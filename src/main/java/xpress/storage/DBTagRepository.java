@@ -36,7 +36,11 @@ public class DBTagRepository implements TagRepository {
         }
 
         if (!StringUtils.isEmpty(filter.getTag())) {
-            queryString.append(!firstCondition ? " AND " : "").append("LOWER(tag) like LOWER('%" + filter.getTag() + "%')");
+            if (filter.isSimilarTags()) {
+                queryString.append(!firstCondition ? " AND " : "").append("LOWER(tag) like LOWER('%" + filter.getTag() + "%')");
+            } else {
+                queryString.append(!firstCondition ? " AND " : "").append("LOWER(tag) = LOWER('" + filter.getTag() + "')");
+            }
             firstCondition = false;
         }
 
