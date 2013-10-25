@@ -54,9 +54,8 @@
     };
 
     var onDoneButtonClicked = function () {
-        debugger;
         var postData = {
-            "mood" : "UNHAPPY",
+            "mood" : ($(".buttons-container .mood-button").not(".inactive").attr("data-mood") || "neutral").toUpperCase(),
             "tag"  : $(".new-tags input").val()
         };
 
@@ -72,6 +71,7 @@
         });
 
         $(".new-tags input").val("");
+        $(".buttons-container .mood-button").removeClass("inactive");
     };
 
     $(document).ready(function () {

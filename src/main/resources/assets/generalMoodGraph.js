@@ -1,7 +1,7 @@
 $(function () {
 
     var lalala =  function(){
-        $.getJSON("http://localhost:9090/service/graphs/moods/LAST_WEEK", function(data){
+        $.getJSON("/service/graphs/moods/LAST_WEEK", function(data){
             chartOptions.series=data.series;
             $('#container').highcharts(chartOptions);
         })

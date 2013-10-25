@@ -33,6 +33,10 @@ body {
     font-size: 22px;
 }
 
+.mood-button.inactive {
+    opacity: 0.3;
+}
+
 .mood-button.color-happy {
     color: #3d9400;
 }
