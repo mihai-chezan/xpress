@@ -80,11 +80,16 @@ public class MoodGraphGenerator {
 
         long indexOffset =(int) ( minTime / splitInterval);
         for (Vote v : sortedVotes) {
-            int index = (int) ((v.getTime() / splitInterval) - indexOffset) - 1;
+            int index = (int) ((v.getTime() / splitInterval) - indexOffset) ;
             if(index == totalNumberOfDatapoints){
                 index = index -  1;
             }
+
+            try{
             moodDataMap.get(v.getMood())[index]++;
+            }catch(Exception e){
+
+            }
         }
 
 
