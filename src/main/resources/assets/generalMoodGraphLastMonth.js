@@ -1,7 +1,7 @@
 $(function () {
 
     var lalala =  function(){
-        $.getJSON("http://localhost:9090/service/graphs/moods/LAST_WEEK", function(data){
+        $.getJSON("http://localhost:9090/service/graphs/moods/LAST_MONTH", function(data){
             chartOptions.series=data.series;
             $('#container').highcharts(chartOptions);
         })
@@ -9,7 +9,7 @@ $(function () {
 
     var chartOptions = {
         title: {
-            text: 'General mood over the last week',
+            text: 'General mood over the last month',
             x: -20 //center
         },
         subtitle: {
@@ -17,8 +17,8 @@ $(function () {
             x: -20
         },
         xAxis: {
-            categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fry',
-                'Sat']
+            /*categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fry',
+                'Sat']*/
         },
         yAxis: {
             title: {
@@ -48,13 +48,7 @@ $(function () {
         }, {
             name: 'Neutral',
             data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
-        }],
-        colors : [
-                  '#65BD22',
-                  '#ED0C1B',
-                  '#EDB50C',
-                  '#000000'
-                  ]
+        }]
     }
     lalala();
 
