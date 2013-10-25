@@ -31,6 +31,20 @@ INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('rosia montana','UNHAPPY',138251
 INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('rosia montana','UNHAPPY',1382516384186); /*ieri*/
 INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('rosia montana','UNHAPPY',1382516384186); /*ieri*/
 
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('chairs','UNHAPPY',1382516384186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('chairs','UNHAPPY',1382516384186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('chairs','HAPPY',1382516384186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('chairs','HAPPY',1382516384186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('chairs','HAPPY',1382516384186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('chairs','NEUTRAL',1382516384186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('chairs','NEUTRAL',1382516384186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('chairs','NEUTRAL',1382516384186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('chairs','NEUTRAL',1382516384186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('chairs','NEUTRAL',1382516384186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('chairs','NEUTRAL',1382516384186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('chairs','NEUTRAL',1382516384186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('chairs','NEUTRAL',1382516384186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('chairs','NEUTRAL',1382516384186); /*ieri*/
 
 INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('got promoted','HAPPY',1382429994186); /*acum 2 zile*/
 INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('got promoted','HAPPY',1382429994186); /*acum 2 zile*/
