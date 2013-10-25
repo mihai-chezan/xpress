@@ -1,11 +1,10 @@
 $(function () {
-
-    var lalala =  function(){
-        $.getJSON("http://localhost:9090/service/graphs/tags/"+s+"/LAST_MONTH", function(data){
+    var renderChart =  function(tag){
+        $.getJSON("/service/graphs/tags/" + tag +"/LAST_MONTH", function(data){
             chartOptions.series=data.series;
             $('#container').highcharts(chartOptions);
         })
-    }
+    };
 
     var chartOptions = {
         chart: {
@@ -48,8 +47,20 @@ $(function () {
                 ['Others',   0.7]
             ]
         }]
-    }
-    lalala();
+    };
+
+    $(document).ready(function() {
+        var qParams = location.search.replace("?", "").split("?"),
+            tag = "";
+        $.each(qParams, function (index, value) {
+            var param = value.split("=");
+            tag = param[0] === "tag" ? param[1] : "";
+        });
+        if (tag) {
+            renderChart(tag);
+        }
+
+    });
 
 });
 
