@@ -22,6 +22,9 @@
         var mood = $(this).attr("data-mood") || "";
         /*TODO - deactivate the other buttons and highlight the selected one*/
 
+        $(".buttons-container .mood-button").addClass("inactive");
+        $(this).removeClass("inactive");
+
         $.getJSON("service/tags/" + mood.toUpperCase(), function (data) {
             var tagsContainer, maxHits, usedTags,
                 newTags = $(".new-tags").removeClass("hidden");
@@ -41,15 +44,34 @@
      *  handle the tag selecting - add the tag value to the input for a new submit
      */
     var onTagClicked = function () {
-        /*TODO - add code for tag selecting*/
+        // ad the selected tag to the new tag input
+        $(".new-tags input").val($(this).html())
     };
 
     var onRemoveButtonClicked = function () {
-        debugger;
+        // remove all the content from the new tags input
+        $(".new-tags input").val("");
     };
 
     var onDoneButtonClicked = function () {
-        // TODO - call add new tag
+        debugger;
+        var postData = {
+            "mood" : "UNHAPPY",
+            "tag"  : $(".new-tags input").val()
+        };
+
+        $.ajax({
+            'type': "POST",
+            'url': "/service/vote",
+            'contentType': 'application/json',
+            'data': JSON.stringify(postData),
+            'dataType': 'json',
+            'success': function () {
+                $(".tags-container, .new-tags").addClass("hidden");
+            }
+        });
+
+        $(".new-tags input").val("");
     };
 
     $(document).ready(function () {
@@ -57,7 +79,7 @@
         $(".buttons-container").on("click", ".mood-button", onMoodButtonClicked);
         $(".tags-container").on("click", ".tag", onTagClicked);
         $(".new-tags").on("click", ".button-remove", onRemoveButtonClicked);
-        $(".new-tags").on("click", ".buttons-done", onDoneButtonClicked);
+        $(".new-tags").on("click", ".button-done", onDoneButtonClicked);
     });
 
 })(jQuery);
