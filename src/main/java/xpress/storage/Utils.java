@@ -1,5 +1,7 @@
 package xpress.storage;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.joda.time.Interval;
@@ -12,6 +14,8 @@ public class Utils {
     private final static long ONE_WEEK = TimeUnit.DAYS.toMillis(7);
     private final static long ONE_MONTH = TimeUnit.DAYS.toMillis(30);
     private final static long ONE_YEAR = TimeUnit.DAYS.toMillis(365);
+
+    private final static SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
     public static Interval getIntervalFormTimeEnum(TimeEnum timeRange) {
         long now = System.currentTimeMillis();
@@ -48,4 +52,9 @@ public class Utils {
 
         }
     }
+
+    public static String prettyPrintDate(long timestamp) {
+        return sdf.format(new Date(timestamp));
+    }
+
 }

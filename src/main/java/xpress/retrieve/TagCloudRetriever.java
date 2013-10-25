@@ -10,6 +10,7 @@ import xpress.Mood;
 import xpress.TagCloud;
 import xpress.storage.Filter;
 import xpress.storage.Repository;
+import xpress.storage.Utils;
 import xpress.storage.entity.VoteEntity;
 
 public class TagCloudRetriever {
@@ -36,6 +37,7 @@ public class TagCloudRetriever {
         //Also keep track of oldest & most recent time used for voteEntities, regardless of tag names etc..
         long oldestTimeOfAll = voteEntities.get(0).getTime();
         long mostRecentTimeOfAll = voteEntities.get(0).getTime();
+
         /**
          * This map will collaps all voteEntities by tagName. For each tag, it will holds the sum of voteEntities, and the most recent time this tag was updated.
          */
@@ -63,6 +65,8 @@ public class TagCloudRetriever {
                 collapsedStats.put(tagName, voteSummary);
             }
         }
+        System.out.println("Oldest of them all:" + Utils.prettyPrintDate(oldestTimeOfAll));
+        System.out.println("Youngest of them all:" + Utils.prettyPrintDate(mostRecentTimeOfAll));
         //update the map so that it holds the 'weight' of each tag
         for (Entry<String, VoteSummary> entry : collapsedStats.entrySet()) {
             String tagName = entry.getKey();
@@ -88,17 +92,21 @@ public class TagCloudRetriever {
         if (x == mostRecentTime)
             return 100;
 
-        long d1 = x - oldestTime;
-        long d2 = mostRecentTime - x;
-        long value = 0;
-        value = d1 / d2;
-        //get the most significant 2 digits from [1,99]
-        while (value > 100) {
-            value = value / 10;
-        }
-        return (int) value; // now safe to cast it since it < 100
+        long totalLenght = mostRecentTime - oldestTime;
+        long lengthOfX = x - oldestTime;
+        int percent = (int) Math.ceil(lengthOfX * 100 / totalLenght);
+
+        System.out.println("Computed score for " + Utils.prettyPrintDate(x) + " vs interval [" + Utils.prettyPrintDate(oldestTime) + ","
+                + Utils.prettyPrintDate(mostRecentTime) + "] was: " + percent);
+        return (int) percent; // now safe to cast it since it < 100
     }
 
+    /**
+     * 
+     * 
+     * @author Tiberiu Rogojan
+     *
+     */
     private class VoteSummary {
 
         private final String tagName;
@@ -121,6 +129,12 @@ public class TagCloudRetriever {
 
         public long getMostRecentTime() {
             return mostRecentTime;
+        }
+
+        @Override
+        public String toString() {
+            return "VoteSummary [tagName=" + tagName + ", numVotes=" + numVotes + ", mostRecentTime="
+                    + Utils.prettyPrintDate(mostRecentTime) + "]";
         }
 
     }

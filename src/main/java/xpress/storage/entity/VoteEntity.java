@@ -1,9 +1,17 @@
 package xpress.storage.entity;
 
-import xpress.Mood;
-
-import javax.persistence.*;
 import static javax.persistence.GenerationType.AUTO;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import xpress.Mood;
+import xpress.storage.Utils;
 /**
  * @author sechelc
  */
@@ -60,4 +68,10 @@ public class VoteEntity {
     public void setMood(Mood mood) {
         this.mood = mood;
     }
+
+    @Override
+    public String toString() {
+        return "VoteEntity [id=" + id + ", mood=" + mood + ", tag=" + tag + ", time=(" + Utils.prettyPrintDate(time) + ")]";
+    }
+
 }
