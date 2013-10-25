@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import com.google.common.collect.Lists;
 import xpress.GraphResponse.GraphResponseElement;
 import xpress.storage.Filter;
 import xpress.storage.Repository;
@@ -62,7 +61,7 @@ public class MoodGraphGenerator {
         // we are not guaranteed that votes are sorted so to make sure we Sort (slow!!); also make defensive copy so
         // that we don't generate side effects to Repo
         List<xpress.Vote> sortedVotes = new ArrayList<>(votes);
-        Collections.sort(votes);
+        Collections.sort(sortedVotes);
         long splitInterval = getSplitInterval(interval);
         int totalNumberOfDatapoints = numberOfDataPoints.get(interval);
         // votes are sparse so we must find out max number of datapoints, and for moods that don't have votes for a
