@@ -1,12 +1,18 @@
 package xpress.storage;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.joda.time.Interval;
+
 import xpress.TimeEnum;
 
 public class Utils {
     private final static long ONE_DAY = 1000 * 60 * 60 * 24;
     private final static long ONE_MONTH = ONE_DAY * 30;
     private final static long ONE_YEAR = ONE_MONTH * 12;
+
+    private final static SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
     public static Interval getIntervalFormTimeEnum(TimeEnum timeRange) {
         long now = System.currentTimeMillis();
@@ -22,4 +28,9 @@ public class Utils {
 
         }
     }
+
+    public static String prettyPrintDate(long timestamp) {
+        return sdf.format(new Date(timestamp));
+    }
+
 }
