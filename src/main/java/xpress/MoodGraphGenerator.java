@@ -38,7 +38,10 @@ public class MoodGraphGenerator {
 
     public GraphResponse compute(TimeEnum interval) {
         List<GraphResponseElement> series = new ArrayList<>();
-        series.addAll(generateMoodElements(interval, getVotes(interval)));
+        List<Vote> votes = getVotes(interval);
+        if (!votes.isEmpty()) {
+            series.addAll(generateMoodElements(interval, votes));
+        }
         return new GraphResponse(series);
     }
 
@@ -53,19 +56,19 @@ public class MoodGraphGenerator {
         long maxTime = sortedVotes.get(sortedVotes.size() - 1).getTime();
         long minTime = sortedVotes.get(0).getTime();
         long totalTimeSpan = maxTime - minTime;
-        long totalNumberOfDatapoints = (totalTimeSpan / splitInterval);
+        int totalNumberOfDatapoints = (int)(totalTimeSpan / splitInterval);
         if ((totalNumberOfDatapoints * splitInterval) < totalTimeSpan) {
             totalNumberOfDatapoints++;
         }
 
-        List<Integer> happyData = new ArrayList<>();
-        GraphResponseElement happyElement = new GraphResponseElement(Mood.HAPPY.toString(), happyData);
-
-        List<Integer> unhappyData = new ArrayList<>();
-        GraphResponseElement unhappyElement = new GraphResponseElement(Mood.UNHAPPY.toString(), unhappyData);
-
-        List<Integer> neutralData = new ArrayList<>();
-        GraphResponseElement neutralElement = new GraphResponseElement(Mood.NEUTRAL.toString(), neutralData);
+        List<Integer> happyData = new ArrayList<>(totalNumberOfDatapoints);
+        List<Integer> unhappyData = new ArrayList<>(totalNumberOfDatapoints);
+        List<Integer> neutralData = new ArrayList<>(totalNumberOfDatapoints);
+        for (int i=0; i < totalNumberOfDatapoints; i++) {
+            happyData.add(0);
+            unhappyData.add(0);
+            neutralData.add(0);
+        }
 
         int index = 0;
         int countHappy = 0;
@@ -100,6 +103,9 @@ public class MoodGraphGenerator {
         unhappyData.add(index, countUnhappy);
         neutralData.add(index, countNeutral);
 
+        GraphResponseElement happyElement = new GraphResponseElement(Mood.HAPPY.toString(), happyData);
+        GraphResponseElement unhappyElement = new GraphResponseElement(Mood.UNHAPPY.toString(), unhappyData);
+        GraphResponseElement neutralElement = new GraphResponseElement(Mood.NEUTRAL.toString(), neutralData);
         return Arrays.asList(new GraphResponseElement[] { happyElement, unhappyElement, neutralElement });
     }
 
