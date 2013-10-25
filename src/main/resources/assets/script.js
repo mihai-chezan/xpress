@@ -19,11 +19,10 @@
         // TODO make a AJAX request to obtain the tags for the selected mood
         var tags = getTags();
         var tagsContainer = $("tags-container");
-        
-        for(tag in tags§ar i=0; i < tags.length; i++) {
-            tagsContainer.insert("<span class='tag'>" + tag[i]. + "</span>")
-        }
 
+        $.each(function (index, value) {
+            tagsContainer.insert("<span class='tag' style='font-size: " + value + "px'>" + index + "</span>")
+        });
 
     };
 
