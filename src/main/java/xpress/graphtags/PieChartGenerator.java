@@ -14,15 +14,13 @@ import com.google.common.collect.Lists;
 @Component
 public class PieChartGenerator {
 
-    // public GraphResponse buildGraphResponse(List<TagByMood> tagByMoodList) {
-    // List<GraphResponseElement> series = Lists.newArrayList();
-    // for (TagByMood tagByMood : tagByMoodList) {
-    // GraphResponseElement graph = generateGraphFor(tagByMood);
-    // series.add(graph);
-    // }
-    //
-    // return new GraphResponse(series);
-    // }
+    public List<PieGraphResponse> buildGraphResponses(List<TagByMood> tagByMoodList) {
+        List<PieGraphResponse> graphs = Lists.newArrayList();
+        for (TagByMood tagByMood : tagByMoodList) {
+            graphs.add(buildGraphResponse(tagByMood));
+        }
+        return graphs;
+    }
 
     public PieGraphResponse buildGraphResponse(TagByMood tagByMood) {
         List<PieGraphResponseElement> series = Lists.newArrayList();

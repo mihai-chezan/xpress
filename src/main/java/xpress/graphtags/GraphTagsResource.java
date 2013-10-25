@@ -29,8 +29,9 @@ public class GraphTagsResource {
 
     @GET
     @Timed
-    public List<TagByMood> getTags() {
-        return tagRetriever.retrieveTagsForPeriod(TimeEnum.LAST_MONTH);
+    public List<PieGraphResponse> getTags() {
+        List<TagByMood> allTags = tagRetriever.retrieveTagsForPeriod(TimeEnum.LAST_MONTH);
+        return pieChartGenerator.buildGraphResponses(allTags);
     }
 
     @GET
@@ -44,9 +45,10 @@ public class GraphTagsResource {
     @GET
     @Timed
     @Path("/similar/{tagName}/{period:(.+)?}")
-    public List<TagByMood> getSimilarTagVotesDuringPeriod(@PathParam("tagName") String tagName,
+    public List<PieGraphResponse> getSimilarTagVotesDuringPeriod(@PathParam("tagName") String tagName,
             @PathParam("period") TimeEnum period) {
-        return tagRetriever.retrieveSimilarTagsForPeriod(tagName, period);
+        List<TagByMood> allTags = tagRetriever.retrieveSimilarTagsForPeriod(tagName, period);
+        return pieChartGenerator.buildGraphResponses(allTags);
     }
 
     @GET
