@@ -25,6 +25,8 @@ public class GraphTagsResource {
 
     private TagRetriever tagRetriever;
 
+    private PieChartGenerator pieChartGenerator;
+
     @GET
     @Timed
     public List<TagByMood> getTags() {
@@ -34,8 +36,9 @@ public class GraphTagsResource {
     @GET
     @Timed
     @Path("{tagName}/{period:(.+)?}")
-    public List<TagByMood> getTagVotesDuringPeriod(@PathParam("tagName") String tagName, @PathParam("period") TimeEnum period) {
-        return tagRetriever.retrieveSpecificTagForPeriod(tagName, period);
+    public PieGraphResponse getTagVotesDuringPeriod(@PathParam("tagName") String tagName, @PathParam("period") TimeEnum period) {
+        TagByMood tagByMood = tagRetriever.retrieveSpecificTagForPeriod(tagName, period);
+        return pieChartGenerator.buildGraphResponse(tagByMood);
     }
 
     @GET
@@ -76,4 +79,9 @@ public class GraphTagsResource {
     public void setTagRetriever(TagRetriever tagRetriever) {
         this.tagRetriever = tagRetriever;
     }
+
+    public void setPieChartGenerator(PieChartGenerator pieChartGenerator) {
+        this.pieChartGenerator = pieChartGenerator;
+    }
+
 }

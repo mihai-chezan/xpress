@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import xpress.TimeEnum;
 import xpress.storage.Filter;
@@ -25,13 +26,17 @@ public class TagRetriever {
         return repository.getTags(filter);
     }
 
-    public List<TagByMood> retrieveSpecificTagForPeriod(String tag, TimeEnum inPeriod) {
+    public TagByMood retrieveSpecificTagForPeriod(String tag, TimeEnum inPeriod) {
         TimeEnum period = inPeriod;
         if (inPeriod == null) {
             period = TimeEnum.LAST_MONTH;
         }
         Filter filter = new Filter.Builder().tag(tag).timeEnum(period).build();
-        return repository.getTags(filter);
+        List<TagByMood> queryResult = repository.getTags(filter);
+        if (!CollectionUtils.isEmpty(queryResult)) {
+            return queryResult.get(0);
+        }
+        return null;
     }
 
     public List<TagByMood> retrieveSimilarTagsForPeriod(String tag, TimeEnum inPeriod) {
