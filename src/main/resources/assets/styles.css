@@ -108,12 +108,20 @@ body {
 }
 
 .new-tags input {
-    background: #FFFFFF;
+    background: transparent;
     border: none;
     outline: none;
     width: 100%;
     color: #797979;
     font-size: 16px;
+
+    border-radius: 0;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    -webkit-appearance: none;
+
 }
 
 .new-tags-buttons {
