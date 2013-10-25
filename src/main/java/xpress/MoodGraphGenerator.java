@@ -24,7 +24,6 @@ public class MoodGraphGenerator {
     private final Repository repo;
     private final Map<TimeEnum, Long> splitIntervalMap;
     private final Map<TimeEnum, Integer> numberOfDataPoints;
-    private final Map<Mood, Integer[]> moodDataMap;
 
     public MoodGraphGenerator(Repository repo) {
         super();
@@ -44,8 +43,6 @@ public class MoodGraphGenerator {
         numberOfDataPoints.put(TimeEnum.LAST_WEEK, 7);
         numberOfDataPoints.put(TimeEnum.LAST_DAY, 24);
         numberOfDataPoints.put(TimeEnum.LAST_HOUR, 60);
-
-        moodDataMap = new HashMap<>();
     }
 
     public GraphResponse compute(TimeEnum interval) {
@@ -76,13 +73,14 @@ public class MoodGraphGenerator {
         Arrays.fill(neutralData,0);
         Arrays.fill(happyData,0);
 
+        Map<Mood, Integer[]> moodDataMap = new HashMap<>();
         moodDataMap.put(Mood.HAPPY, happyData);
         moodDataMap.put(Mood.UNHAPPY, unhappyData);
         moodDataMap.put(Mood.NEUTRAL, neutralData);
 
-        int indexOffset =(int) ( minTime / splitInterval) - 1;
+        long indexOffset =(int) ( minTime / splitInterval);
         for (Vote v : sortedVotes) {
-            int index = (int) (v.getTime() / splitInterval) - indexOffset;
+            int index = (int) ((v.getTime() / splitInterval) - indexOffset) - 1;
             if(index == totalNumberOfDatapoints){
                 index = index -  1;
             }
