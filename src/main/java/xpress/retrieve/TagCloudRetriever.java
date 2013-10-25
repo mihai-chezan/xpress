@@ -65,8 +65,8 @@ public class TagCloudRetriever {
                 collapsedStats.put(tagName, voteSummary);
             }
         }
-        System.out.println("Oldest of them all:" + Utils.prettyPrintDate(oldestTimeOfAll));
-        System.out.println("Youngest of them all:" + Utils.prettyPrintDate(mostRecentTimeOfAll));
+        //        System.out.println("Oldest of them all:" + Utils.prettyPrintDate(oldestTimeOfAll));
+        //        System.out.println("Youngest of them all:" + Utils.prettyPrintDate(mostRecentTimeOfAll));
         //update the map so that it holds the 'weight' of each tag
         for (Entry<String, VoteSummary> entry : collapsedStats.entrySet()) {
             String tagName = entry.getKey();
@@ -97,8 +97,8 @@ public class TagCloudRetriever {
         long lengthOfX = x - oldestTime;
         int percent = (int) Math.ceil(lengthOfX * 100 / totalLenght);
 
-        System.out.println("Computed score for " + Utils.prettyPrintDate(x) + " vs interval [" + Utils.prettyPrintDate(oldestTime) + ","
-                + Utils.prettyPrintDate(mostRecentTime) + "] was: " + percent);
+        //        System.out.println("Computed score for " + Utils.prettyPrintDate(x) + " vs interval [" + Utils.prettyPrintDate(oldestTime) + ","
+        //                + Utils.prettyPrintDate(mostRecentTime) + "] was: " + percent);
         return (int) percent; // now safe to cast it since it < 100
     }
 
