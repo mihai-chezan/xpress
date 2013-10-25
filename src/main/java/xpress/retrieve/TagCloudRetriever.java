@@ -14,43 +14,6 @@ import xpress.storage.entity.VoteEntity;
 
 public class TagCloudRetriever {
 
-    public class VoteSummary {
-
-        private String tagName;
-        private int numVotes;
-        private long mostRecentTime;
-
-        public VoteSummary(String tagName, int numVotes, long mostRecentTime) {
-            this.tagName = tagName;
-            this.numVotes = numVotes;
-            this.mostRecentTime = mostRecentTime;
-        }
-
-        public String getTagName() {
-            return tagName;
-        }
-
-        public void setTagName(String tagName) {
-            this.tagName = tagName;
-        }
-
-        public int getNumVotes() {
-            return numVotes;
-        }
-
-        public void setNumVotes(int numVotes) {
-            this.numVotes = numVotes;
-        }
-
-        public long getMostRecentTime() {
-            return mostRecentTime;
-        }
-
-        public void setMostRecentTime(long mostRecentTime) {
-            this.mostRecentTime = mostRecentTime;
-        }
-
-    }
 
     private final Repository repo;
 
@@ -136,4 +99,29 @@ public class TagCloudRetriever {
         return (int) value; // now safe to cast it since it < 100
     }
 
+    private class VoteSummary {
+
+        private final String tagName;
+        private final int numVotes;
+        private final long mostRecentTime;
+
+        public VoteSummary(String tagName, int numVotes, long mostRecentTime) {
+            this.tagName = tagName;
+            this.numVotes = numVotes;
+            this.mostRecentTime = mostRecentTime;
+        }
+
+        public String getTagName() {
+            return tagName;
+        }
+
+        public int getNumVotes() {
+            return numVotes;
+        }
+
+        public long getMostRecentTime() {
+            return mostRecentTime;
+        }
+
+    }
 }
