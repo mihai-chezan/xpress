@@ -72,8 +72,8 @@ public class TagCloudRetriever {
             String tagName = entry.getKey();
             VoteSummary voteSummary = entry.getValue();
             //compute weights, 70% by numVotes and 30% by time
-            int weigthByVotes = (int) (Math.ceil(0.7 * voteSummary.getNumVotes()));
-            int weightByTime = (int) (Math.ceil(0.3 * computeWeightByTime(oldestTimeOfAll, mostRecentTimeOfAll, voteSummary
+            int weigthByVotes = (int) (Math.ceil(0.9 * voteSummary.getNumVotes()));
+            int weightByTime = (int) (Math.ceil(0.1 * computeWeightByTime(oldestTimeOfAll, mostRecentTimeOfAll, voteSummary
                     .getMostRecentTime())));
             map.put(tagName, weigthByVotes + weightByTime);
         }
