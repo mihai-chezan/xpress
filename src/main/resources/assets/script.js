@@ -1,34 +1,63 @@
 (function ($) {
     "use strict";
-    var getRandomInt = function (min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    }
 
-    var getTags = function () {
-        var tags = "animals   architecture   art   asia   australia   autumn   baby   band   barcelona   beach   berlin   bike   bird   birds   birthday   black   blackandwhite   blue   bw   california   canada   canon   car   cat   chicago   china   christmas   church   city   clouds   color   concert   dance   day   de   dog   england   europe   fall   family   fashion   festival   film   florida   flower   flowers   food   football   france   friends   fun   garden   geotagged   germany   girl   graffiti   green   halloween   hawaii   holiday   house   india   instagramapp   iphone   iphoneography   island   italia   italy   japan   kids   la   lake   landscape   light   live   london   love   macro   me   mexico   model   museum   music   nature   new   newyork   newyorkcity   night   nikon   nyc   ocean   old   paris   park   party   people   photo   photography   photos   portrait   raw   red   river   rock   san   sanfrancisco   scotland   sea   seattle   show   sky   snow   spain   spring   square   squareformat   street   summer   sun   sunset   taiwan   texas   thailand   tokyo   travel   tree   trees   trip   uk   unitedstates   urban   usa   vacation   vintage   washington   water   wedding   white   winter   woman   yellow   zoo";
-        tags = tags.split("   ");
-        var tagsJSON = {};
-        for(var i=0; i < tags.length; i++) {
-            tagsJSON[tags[i]] = getRandomInt(10, 35);
-        }
-        return tagsJSON;
-    }
-
-    var onMoodButtonClicked = function (event, a, b, c) {
-        var mood = $(this).attr("data-mood");
-        // TODO make a AJAX request to obtain the tags for the selected mood
-        var tags = getTags();
-        var tagsContainer = $("tags-container");
-
-        $.each(function (index, value) {
-            tagsContainer.insert("<span class='tag' style='font-size: " + value + "px'>" + index + "</span>")
+    /**
+     *
+     * @param data
+     * @returns {number}
+     */
+    var getMaxHits = function (data) {
+        var maxHits = 0;
+        $.each(data, function (tag, hits) {
+            maxHits = Math.max(hits, maxHits);
         });
+        return maxHits || 1;
+    };
 
+    /**
+     *
+     * @param event
+     */
+    var onMoodButtonClicked = function (event) {
+        var mood = $(this).attr("data-mood") || "";
+        /*TODO - deactivate the other buttons and highlight the selected one*/
+
+        $.getJSON("service/tags/" + mood.toUpperCase(), function (data) {
+            var tagsContainer, maxHits, usedTags,
+                newTags = $(".new-tags").removeClass("hidden");
+            if (data && data.content) {
+                tagsContainer = $(".tags-container").removeClass("hidden");
+                usedTags = tagsContainer.find(".used-tags").html("");
+                maxHits = getMaxHits(data.content);
+                $.each(data.content, function (tag, hits) {
+                    var fontSize = Math.round((hits / maxHits) * (35 - 8) + 8) + "px";
+                    usedTags.append("<span class='tag' style='font-size: " + fontSize + "'>" + tag + "</span> ");
+                });
+            }
+        });
+    };
+
+    /**
+     *  handle the tag selecting - add the tag value to the input for a new submit
+     */
+    var onTagClicked = function () {
+        /*TODO - add code for tag selecting*/
+    };
+
+    var onRemoveButtonClicked = function () {
+        debugger;
+    };
+
+    var onDoneButtonClicked = function () {
+        // TODO - call add new tag
     };
 
     $(document).ready(function () {
         // Add event handlers for mood buttons
         $(".buttons-container").on("click", ".mood-button", onMoodButtonClicked);
+        $(".tags-container").on("click", ".tag", onTagClicked);
+        $(".new-tags").on("click", ".button-remove", onRemoveButtonClicked);
+        $(".new-tags").on("click", ".buttons-done", onDoneButtonClicked);
     });
 
 })(jQuery);

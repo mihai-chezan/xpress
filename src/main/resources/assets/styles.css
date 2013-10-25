@@ -1,11 +1,16 @@
 body {
     background: #eeeeee;
-    font-size: 24px;
+    font-size: 16px;
     color: #898989;
     font-family: roboto;
     font-weight: 100;
 }
 
+.hidden {
+    display: none;
+}
+
+/*** BUTTONS ***/
 .buttons-container {
     display: table;
     width: 100%;
@@ -22,9 +27,10 @@ body {
     background: #FFFFFF;
     border-radius: 3px;
     box-shadow: 2px 2px 2px #d0d0d0;
-    height: 200px;
-    line-height: 200px;
+    height: 82px;
+    line-height: 82px;
     text-align: center;
+    font-size: 22px;
 }
 
 .mood-button.color-happy {
@@ -37,4 +43,81 @@ body {
 
 .mood-button.color-neutral {
     color: #1256cc;
+}
+
+/*** Tags ***/
+.tags-container {
+    background: #444444;
+    margin: 10px;
+    border-radius: 3px;
+    color: #EAEAEA;
+    box-sizing: border-box;
+}
+
+.used-tags {
+    padding: 8px;
+}
+
+.tag {
+
+}
+
+.tag:active {
+    text-decoration: underline;
+    color: #a2a2a2;
+}
+
+/*** New tags ***/
+.new-tags {
+    background: #FFF;
+    border-radius: 3px;
+    box-shadow: 2px 2px 2px #D0D0D0;
+    height: 30px;
+    line-height: 30px;
+    font-size: 18px;
+    box-sizing: border-box;
+    margin: 10px;
+    padding: 0 10px;
+    position: relative;
+}
+
+.new-tags input {
+    background: #FFFFFF;
+    border: none;
+    outline: none;
+    width: 100%;
+}
+
+.new-tags-buttons {
+    position: absolute;
+    height: 30px;
+    right: 0;
+    top: 0;
+}
+
+.button-remove, .button-done {
+    display: inline-block;
+    background: transparent url("input-sprite.png") no-repeat 0 0;
+    width: 30px;
+    height: 30px;
+    background-size: auto 30px;
+    -webkit-background-size: auto 30px;
+    -moz-background-size: auto 30px;
+}
+
+.button-remove {
+    background-position: -30px 0;
+}
+
+/*************************/
+/***** MEDIA QUERIES *****/
+/*************************/
+/*tablets in portrait and landscape --> 2 columns */
+@media (min-width: 320px) and (orientation : landscape) {
+    .mood-button {
+        height: 100px;
+        line-height: 100px;
+        text-align: center;
+        font-size: 26px;
+    }
 }
