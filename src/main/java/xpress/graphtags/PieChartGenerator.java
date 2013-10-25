@@ -2,6 +2,7 @@ package xpress.graphtags;
 
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,9 @@ public class PieChartGenerator {
     }
 
     public PieGraphResponse buildGraphResponse(TagByMood tagByMood) {
+        if (tagByMood == null) {
+            tagByMood = getDummyData();
+        }
         List<PieGraphResponseElement> series = Lists.newArrayList();
         series.addAll(generateGraphFor(tagByMood));
         return new PieGraphResponse(series);
@@ -45,4 +49,14 @@ public class PieChartGenerator {
         return response;
 
     }
+
+    private TagByMood getDummyData() {
+        TagByMood dummy = new TagByMood();
+        dummy.setTag("weather");
+        for (Mood mood : Mood.values()) {
+            dummy.getFrequency().put(mood, new Random().nextInt(10));
+        }
+        return dummy;
+    }
+
 }
