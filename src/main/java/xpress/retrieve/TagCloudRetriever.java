@@ -89,21 +89,24 @@ public class TagCloudRetriever {
             }
             //sum up the voteEntities for each tag
             String tagName = voteEntity.getTag();
-            VoteSummary voteSummary = collapsedStats.get(tagName);
-            if (voteSummary == null) {
-                voteSummary = new VoteSummary(tagName, 1, voteEntity.getTime());
-            } else {
-                voteSummary = new VoteSummary(tagName, voteSummary.getNumVotes() + 1, getMostRecentTimeForThisTag(voteEntity.getTime(),
-                        voteSummary.getMostRecentTime()));
+            if (tagName != null) {
+                VoteSummary voteSummary = collapsedStats.get(tagName);
+                if (voteSummary == null) {
+                    voteSummary = new VoteSummary(tagName, 1, voteEntity.getTime());
+                } else {
+                    voteSummary = new VoteSummary(tagName, voteSummary.getNumVotes() + 1, getMostRecentTimeForThisTag(voteEntity.getTime(),
+                            voteSummary.getMostRecentTime()));
+                }
+                collapsedStats.put(tagName, voteSummary);
             }
-            collapsedStats.put(tagName, voteSummary);
         }
         //update the map so that it holds the 'weight' of each tag
         for (Entry<String, VoteSummary> entry : collapsedStats.entrySet()) {
             String tagName = entry.getKey();
             VoteSummary voteSummary = entry.getValue();
-            int weigthByVotes = (int) (0.5 * voteSummary.getNumVotes()); //50% is by numVotes
-            int weightByTime = (int) (0.5 * computeWeightByTime(oldestTimeOfAll, mostRecentTimeOfAll, voteSummary.getMostRecentTime())); // 50 % by time
+            int weigthByVotes = (int) (Math.ceil(0.6 * voteSummary.getNumVotes())); //60% is by numVotes
+            int weightByTime = (int) (Math.ceil(0.4 * computeWeightByTime(oldestTimeOfAll, mostRecentTimeOfAll, voteSummary
+                    .getMostRecentTime()))); // 40 % by time
             map.put(tagName, weigthByVotes + weightByTime);
         }
 

@@ -1,23 +1,25 @@
 package xpress.retrieve;
 
-import org.mockito.Mockito;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import xpress.Mood;
-import xpress.TagCloud;
-import xpress.storage.Filter;
-import xpress.storage.Repository;
-import xpress.storage.entity.VoteEntity;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.testng.Assert.assertTrue;
+import org.mockito.Mockito;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import xpress.Mood;
+import xpress.TagCloud;
+import xpress.storage.Filter;
+import xpress.storage.Repository;
+import xpress.storage.entity.VoteEntity;
 
 public class TagCloudRetrieverTest {
 
@@ -83,5 +85,31 @@ public class TagCloudRetrieverTest {
         assertTrue(weightRecentVote > weightOlderVote);
     }
 
+    @Test
+    public void testHandleVotesWithNoTags() throws Exception {
+        List<VoteEntity> returnedVotes = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            VoteEntity v = new VoteEntity();
+            v.setMood(Mood.HAPPY);
+            v.setTag(null);
+            v.setTime(Calendar.getInstance().getTimeInMillis());
+            returnedVotes.add(v);
+        }
+        String tag2 = "other biscuits";
+        VoteEntity voteWithTag = new VoteEntity();
+        voteWithTag.setMood(Mood.HAPPY);
+        voteWithTag.setTag(tag2);
+        voteWithTag.setTime(Calendar.getInstance().getTimeInMillis());
+        VoteEntity singleVote = voteWithTag;
+        returnedVotes.add(singleVote);
+
+        when(mockRepo.getVotes(Mockito.any(Filter.class))).thenReturn(returnedVotes);
+
+        TagCloud tags = tagCloudRetriever.retrieveTagCloudsFor(Mood.HAPPY);
+        Map<String, Integer> content = tags.getContent();
+        assertTrue(content.entrySet().size() == 1);
+        assertTrue(content.get(tag2) > 0);
+    }
 
 }

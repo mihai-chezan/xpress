@@ -1,0 +1,40 @@
+body {
+    background: #eeeeee;
+    font-size: 24px;
+    color: #898989;
+    font-family: roboto;
+    font-weight: 100;
+}
+
+.buttons-container {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.mood-button-cell {
+    display: table-cell;
+    width: 33.33%;
+    padding: 10px;
+}
+
+.mood-button {
+    background: #FFFFFF;
+    border-radius: 3px;
+    box-shadow: 2px 2px 2px #d0d0d0;
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+}
+
+.mood-button.color-happy {
+    color: #3d9400;
+}
+
+.mood-button.color-unhappy {
+    color: #ff8801;
+}
+
+.mood-button.color-neutral {
+    color: #1256cc;
+}
