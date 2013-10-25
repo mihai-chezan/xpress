@@ -8,9 +8,9 @@ import java.util.Map.Entry;
 
 import xpress.Mood;
 import xpress.TagCloud;
-import xpress.storage.entity.VoteEntity;
 import xpress.storage.Filter;
 import xpress.storage.Repository;
+import xpress.storage.entity.VoteEntity;
 
 public class TagCloudRetriever {
 
@@ -117,14 +117,16 @@ public class TagCloudRetriever {
     private int computeWeightByTime(long oldestTime, long mostRecentTime, long x) {
         //oldest---------------d1--------------X---d2----mostRecent
         //try to give percentage of how close x is to d2. if it's up to 100 % then it's 100 weight..
+        if (x == oldestTime)
+            return 0;
+        if (x == mostRecentTime)
+            return 100;
+
         long d1 = x - oldestTime;
         long d2 = mostRecentTime - x;
         long value = 0;
-        if (d2 != 0) {
-            value = d1 / d2;
-        } else {
-            value = d1;
-        }
+        value = d1 / d2;
+        //get the most significant 2 digits from [1,99]
         while (value > 100) {
             value = value / 10;
         }
