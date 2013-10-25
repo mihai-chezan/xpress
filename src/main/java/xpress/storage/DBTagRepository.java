@@ -36,7 +36,7 @@ public class DBTagRepository implements TagRepository {
         }
 
         if (!StringUtils.isEmpty(filter.getTag())) {
-            queryString.append(!firstCondition ? " AND " : "").append("tag like %" + filter.getTag() + "%");
+            queryString.append(!firstCondition ? " AND " : "").append("LOWER(tag) like LOWER('%" + filter.getTag() + "%')");
             firstCondition = false;
         }
 
@@ -65,8 +65,8 @@ public class DBTagRepository implements TagRepository {
         for (Object[] tuple : tuples) {
 
             String tagName = (String) tuple[0];
-            Mood mood = Mood.valueOf((String) tuple[2]);
-            int frequency = (int) tuple[1];
+            Mood mood = (Mood) tuple[2];
+            int frequency = (int) ((long) tuple[1]);
 
             TagByMood tagByMood = getOrCreateTagByMood(result, tagName);
             updateFrequencyForMood(tagByMood, mood, frequency);
