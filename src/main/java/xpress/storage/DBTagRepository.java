@@ -3,7 +3,7 @@ package xpress.storage;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.SQLQuery;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +27,40 @@ public class DBTagRepository implements TagRepository {
     @Override
     public List<TagByMood> getTags(Filter filter) {
         Session session = sessionFactory.getCurrentSession();
-        SQLQuery query = session.createSQLQuery("SELECT tag, count(*), mood FROM VoteEntity GROUP BY tag, mood");
-        List<Object[]> tuples = query.list();
+        StringBuilder queryString = new StringBuilder("SELECT tag, count(*), mood FROM VoteEntity ");
 
+        boolean firstCondition = true;
+
+        if (!filter.isEmpty()) {
+            queryString.append(" WHERE ");
+        }
+
+        if (!StringUtils.isEmpty(filter.getTag())) {
+            queryString.append(!firstCondition ? " AND " : "").append("tag like %" + filter.getTag() + "%");
+            firstCondition = false;
+        }
+
+        if (filter.getMood() != null) {
+            queryString.append(!firstCondition ? " AND " : "").append("mood is " + filter.getMood());
+            firstCondition = false;
+        }
+
+        if (filter.getTime() != null) {
+            long timestamp = Utils.getTimestampForTimeEnum(filter.getTime());
+            queryString.append(!firstCondition ? " AND " : "").append("time > " + timestamp);
+            firstCondition = false;
+        }
+
+        queryString.append(" GROUP BY tag, mood");
+
+        List<Object[]> tuples = session.createQuery(queryString.toString()).list();
+
+        Map<String, TagByMood> result = convertTuplesToTagByMood(tuples);
+
+        return Lists.newArrayList(result.values());
+    }
+
+    private Map<String, TagByMood> convertTuplesToTagByMood(List<Object[]> tuples) {
         Map<String, TagByMood> result = Maps.newConcurrentMap();
         for (Object[] tuple : tuples) {
 
@@ -38,10 +69,14 @@ public class DBTagRepository implements TagRepository {
             int frequency = (int) tuple[1];
 
             TagByMood tagByMood = getOrCreateTagByMood(result, tagName);
-            Map<Mood, Integer> frequencyMap = getFrquencyMapForMood(tagByMood, mood);
-            frequencyMap.put(mood, frequency);
+            updateFrequencyForMood(tagByMood, mood, frequency);
         }
 
+        setTotalFrequency(result);
+        return result;
+    }
+
+    private void setTotalFrequency(Map<String, TagByMood> result) {
         for (TagByMood tagByMood : result.values()) {
             int totalFrequency = 0;
             for (Mood mood : Mood.values()) {
@@ -50,8 +85,6 @@ public class DBTagRepository implements TagRepository {
             }
             tagByMood.setTotalFrequency(totalFrequency);
         }
-
-        return Lists.newArrayList(result.values());
     }
 
     private TagByMood getOrCreateTagByMood(Map<String, TagByMood> tagByMoodMap, String tagName) {
@@ -66,8 +99,8 @@ public class DBTagRepository implements TagRepository {
         return tagByMood;
     }
 
-    private Map<Mood, Integer> getFrquencyMapForMood(TagByMood tagByMood, Mood mood) {
-        return tagByMood.getFrequency();
+    private void updateFrequencyForMood(TagByMood tagByMood, Mood mood, int frequency) {
+        tagByMood.getFrequency().put(mood, frequency);
     }
 
 }

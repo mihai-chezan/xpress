@@ -28,14 +28,14 @@ public class GraphTagsResource {
     @GET
     @Timed
     public List<TagByMood> getTags() {
-        return tagRetriever.retrieve(TimeEnum.LAST_MONTH);
+        return tagRetriever.retrieveTagsForPeriod(TimeEnum.LAST_MONTH);
     }
 
     @GET
     @Timed
     @Path("{tagName}/{period:(.+)?}")
-    public Map<String, Integer> getTagVotesDuringPeriod(@PathParam("tagName") String tagName, @PathParam("period") TimeEnum period) {
-        return getDummyPeriodTags();
+    public List<TagByMood> getTagVotesDuringPeriod(@PathParam("tagName") String tagName, @PathParam("period") TimeEnum period) {
+        return tagRetriever.retrieveSpecificTagsForPeriod(tagName, period);
     }
 
     @GET
