@@ -31,6 +31,28 @@ body {
     line-height: 82px;
     text-align: center;
     font-size: 22px;
+    padding-top: 7px;
+    box-sizing: border-box;
+}
+.mood-button .face {
+    width: 62px;
+    height: 70px;
+    background: transparent url("faces.png") no-repeat 0 0;
+    background-size: auto 70px;
+    -webkit-background-size: auto 70px;
+    -moz-background-size: auto 70px;
+    margin: auto;
+}
+
+.mood-button.color-happy .face {
+    background-position: 0 0;
+}
+
+.mood-button.color-unhappy .face {
+    background-position: -62px 0;
+}
+.mood-button.color-neutral .face {
+    background-position: -124px 0;
 }
 
 .mood-button.inactive {
@@ -38,15 +60,15 @@ body {
 }
 
 .mood-button.color-happy {
-    color: #3d9400;
+    background-color: #3d9400;
 }
 
 .mood-button.color-unhappy {
-    color: #ff8801;
+    background-color: #ff8801;
 }
 
 .mood-button.color-neutral {
-    color: #1256cc;
+    background-color: #1256cc;
 }
 
 /*** Tags ***/
@@ -125,5 +147,6 @@ body {
         line-height: 100px;
         text-align: center;
         font-size: 26px;
+        padding-top: 20px;
     }
 }
