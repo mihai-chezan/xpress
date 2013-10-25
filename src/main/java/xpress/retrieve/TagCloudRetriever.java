@@ -53,7 +53,7 @@ public class TagCloudRetriever {
                 mostRecentTimeOfAll = voteTime;
             }
             //sum up the voteEntities for each tag
-            String tagName = voteEntity.getTag();
+            String tagName = voteEntity.getTag().trim();
             if (tagName != null) {
                 VoteSummary voteSummary = collapsedStats.get(tagName);
                 if (voteSummary == null) {
@@ -71,9 +71,10 @@ public class TagCloudRetriever {
         for (Entry<String, VoteSummary> entry : collapsedStats.entrySet()) {
             String tagName = entry.getKey();
             VoteSummary voteSummary = entry.getValue();
-            int weigthByVotes = (int) (Math.ceil(0.6 * voteSummary.getNumVotes())); //60% is by numVotes
-            int weightByTime = (int) (Math.ceil(0.4 * computeWeightByTime(oldestTimeOfAll, mostRecentTimeOfAll, voteSummary
-                    .getMostRecentTime()))); // 40 % by time
+            //compute weights, 70% by numVotes and 30% by time
+            int weigthByVotes = (int) (Math.ceil(0.7 * voteSummary.getNumVotes()));
+            int weightByTime = (int) (Math.ceil(0.3 * computeWeightByTime(oldestTimeOfAll, mostRecentTimeOfAll, voteSummary
+                    .getMostRecentTime())));
             map.put(tagName, weigthByVotes + weightByTime);
         }
 
