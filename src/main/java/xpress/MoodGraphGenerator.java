@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.collect.Lists;
 import xpress.GraphResponse.GraphResponseElement;
 import xpress.storage.Filter;
 import xpress.storage.Repository;
@@ -23,6 +24,8 @@ import xpress.storage.entity.VoteEntity;
 public class MoodGraphGenerator {
     private final Repository repo;
     private final Map<TimeEnum, Long> splitIntervalMap;
+    private final Map<TimeEnum, Integer> numberOfDataPoints;
+    private final Map<Mood, Integer[]> moodDataMap;
 
     public MoodGraphGenerator(Repository repo) {
         super();
@@ -31,9 +34,19 @@ public class MoodGraphGenerator {
         splitIntervalMap.put(TimeEnum.ALL, TimeUnit.DAYS.toMillis(30));
         splitIntervalMap.put(TimeEnum.LAST_YEAR, TimeUnit.DAYS.toMillis(30));
         splitIntervalMap.put(TimeEnum.LAST_MONTH, TimeUnit.DAYS.toMillis(1));
-        splitIntervalMap.put(TimeEnum.LAST_WEEK, TimeUnit.HOURS.toMillis(6));
+        splitIntervalMap.put(TimeEnum.LAST_WEEK, TimeUnit.DAYS.toMillis(1));
         splitIntervalMap.put(TimeEnum.LAST_DAY, TimeUnit.HOURS.toMillis(1));
         splitIntervalMap.put(TimeEnum.LAST_HOUR, TimeUnit.MINUTES.toMillis(1));
+
+        numberOfDataPoints = new HashMap<>();
+        numberOfDataPoints.put(TimeEnum.ALL, 30);
+        numberOfDataPoints.put(TimeEnum.LAST_YEAR, 10);
+        numberOfDataPoints.put(TimeEnum.LAST_MONTH, 30);
+        numberOfDataPoints.put(TimeEnum.LAST_WEEK, 7);
+        numberOfDataPoints.put(TimeEnum.LAST_DAY, 24);
+        numberOfDataPoints.put(TimeEnum.LAST_HOUR, 60);
+
+        moodDataMap = new HashMap<>();
     }
 
     public GraphResponse compute(TimeEnum interval) {
@@ -51,61 +64,36 @@ public class MoodGraphGenerator {
         List<xpress.Vote> sortedVotes = new ArrayList<>(votes);
         Collections.sort(votes);
         long splitInterval = getSplitInterval(interval);
+        int totalNumberOfDatapoints = numberOfDataPoints.get(interval);
         // votes are sparse so we must find out max number of datapoints, and for moods that don't have votes for a
         // certain interval, put zero
-        long maxTime = sortedVotes.get(sortedVotes.size() - 1).getTime();
-        long minTime = sortedVotes.get(0).getTime();
-        long totalTimeSpan = maxTime - minTime;
-        int totalNumberOfDatapoints = (int)(totalTimeSpan / splitInterval);
-        if ((totalNumberOfDatapoints * splitInterval) < totalTimeSpan) {
-            totalNumberOfDatapoints++;
-        }
+        long maxTime = System.currentTimeMillis();
+        long minTime = maxTime - totalNumberOfDatapoints*splitInterval;
 
-        List<Integer> happyData = new ArrayList<>(totalNumberOfDatapoints);
-        List<Integer> unhappyData = new ArrayList<>(totalNumberOfDatapoints);
-        List<Integer> neutralData = new ArrayList<>(totalNumberOfDatapoints);
-        for (int i=0; i < totalNumberOfDatapoints; i++) {
-            happyData.add(0);
-            unhappyData.add(0);
-            neutralData.add(0);
-        }
+        Integer[] happyData = new Integer[totalNumberOfDatapoints];
+        Integer[] unhappyData = new Integer[totalNumberOfDatapoints];
+        Integer[] neutralData = new Integer[totalNumberOfDatapoints];
+        Arrays.fill(unhappyData,0);
+        Arrays.fill(neutralData,0);
+        Arrays.fill(happyData,0);
 
-        int index = 0;
-        int countHappy = 0;
-        int countUnhappy = 0;
-        int countNeutral = 0;
+        moodDataMap.put(Mood.HAPPY, happyData);
+        moodDataMap.put(Mood.UNHAPPY, unhappyData);
+        moodDataMap.put(Mood.NEUTRAL, neutralData);
+
+        int indexOffset =(int) ( minTime / splitInterval) - 1;
         for (Vote v : sortedVotes) {
-            int newIndex = (int) ((v.getTime() - minTime) / splitInterval);
-            if (newIndex != index) {
-                happyData.add(index, countHappy);
-                unhappyData.add(index, countUnhappy);
-                neutralData.add(index, countNeutral);
-                index = newIndex;
-                countHappy = 0;
-                countUnhappy = 0;
-                countNeutral = 0;
+            int index = (int) (v.getTime() / splitInterval) - indexOffset;
+            if(index == totalNumberOfDatapoints){
+                index = index -  1;
             }
-            switch (v.getMood()) {
-            case HAPPY:
-                countHappy++;
-                break;
-            case UNHAPPY:
-                countUnhappy++;
-                break;
-            case NEUTRAL:
-                countNeutral++;
-                break;
-            default:
-                break;
-            }
+            moodDataMap.get(v.getMood())[index]++;
         }
-        happyData.add(index, countHappy);
-        unhappyData.add(index, countUnhappy);
-        neutralData.add(index, countNeutral);
 
-        GraphResponseElement happyElement = new GraphResponseElement(Mood.HAPPY.toString(), happyData);
-        GraphResponseElement unhappyElement = new GraphResponseElement(Mood.UNHAPPY.toString(), unhappyData);
-        GraphResponseElement neutralElement = new GraphResponseElement(Mood.NEUTRAL.toString(), neutralData);
+
+        GraphResponseElement happyElement = new GraphResponseElement(Mood.HAPPY.toString(), Arrays.asList(happyData));
+        GraphResponseElement unhappyElement = new GraphResponseElement(Mood.UNHAPPY.toString(), Arrays.asList(unhappyData));
+        GraphResponseElement neutralElement = new GraphResponseElement(Mood.NEUTRAL.toString(), Arrays.asList(neutralData));
         return Arrays.asList(new GraphResponseElement[] { happyElement, unhappyElement, neutralElement });
     }
 

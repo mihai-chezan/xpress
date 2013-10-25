@@ -53,7 +53,7 @@ public class TagCloudRetriever {
                 mostRecentTimeOfAll = voteTime;
             }
             //sum up the voteEntities for each tag
-            String tagName = voteEntity.getTag();
+            String tagName = voteEntity.getTag().trim();
             if (tagName != null) {
                 VoteSummary voteSummary = collapsedStats.get(tagName);
                 if (voteSummary == null) {
@@ -65,15 +65,16 @@ public class TagCloudRetriever {
                 collapsedStats.put(tagName, voteSummary);
             }
         }
-        System.out.println("Oldest of them all:" + Utils.prettyPrintDate(oldestTimeOfAll));
-        System.out.println("Youngest of them all:" + Utils.prettyPrintDate(mostRecentTimeOfAll));
+        //        System.out.println("Oldest of them all:" + Utils.prettyPrintDate(oldestTimeOfAll));
+        //        System.out.println("Youngest of them all:" + Utils.prettyPrintDate(mostRecentTimeOfAll));
         //update the map so that it holds the 'weight' of each tag
         for (Entry<String, VoteSummary> entry : collapsedStats.entrySet()) {
             String tagName = entry.getKey();
             VoteSummary voteSummary = entry.getValue();
-            int weigthByVotes = (int) (Math.ceil(0.6 * voteSummary.getNumVotes())); //60% is by numVotes
-            int weightByTime = (int) (Math.ceil(0.4 * computeWeightByTime(oldestTimeOfAll, mostRecentTimeOfAll, voteSummary
-                    .getMostRecentTime()))); // 40 % by time
+            //compute weights, 70% by numVotes and 30% by time
+            int weigthByVotes = (int) (Math.ceil(0.7 * voteSummary.getNumVotes()));
+            int weightByTime = (int) (Math.ceil(0.3 * computeWeightByTime(oldestTimeOfAll, mostRecentTimeOfAll, voteSummary
+                    .getMostRecentTime())));
             map.put(tagName, weigthByVotes + weightByTime);
         }
 
@@ -96,8 +97,8 @@ public class TagCloudRetriever {
         long lengthOfX = x - oldestTime;
         int percent = (int) Math.ceil(lengthOfX * 100 / totalLenght);
 
-        System.out.println("Computed score for " + Utils.prettyPrintDate(x) + " vs interval [" + Utils.prettyPrintDate(oldestTime) + ","
-                + Utils.prettyPrintDate(mostRecentTime) + "] was: " + percent);
+        //        System.out.println("Computed score for " + Utils.prettyPrintDate(x) + " vs interval [" + Utils.prettyPrintDate(oldestTime) + ","
+        //                + Utils.prettyPrintDate(mostRecentTime) + "] was: " + percent);
         return (int) percent; // now safe to cast it since it < 100
     }
 
