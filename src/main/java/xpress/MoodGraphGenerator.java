@@ -84,7 +84,12 @@ public class MoodGraphGenerator {
             if(index == totalNumberOfDatapoints){
                 index = index -  1;
             }
+
+            try{
             moodDataMap.get(v.getMood())[index]++;
+            }catch(Exception e){
+
+            }
         }
 
 
