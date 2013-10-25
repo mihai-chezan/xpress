@@ -2,6 +2,7 @@ package xpress.storage;
 
 import xpress.Mood;
 import xpress.TimeEnum;
+import xpress.graphtags.ChartType;
 
 /**
  * @author sechelc
@@ -10,6 +11,7 @@ public class Filter {
     String tag;
     Mood mood;
     TimeEnum time;
+    ChartType chartType;
 
     public String getTag() {
         return tag;
@@ -33,5 +35,13 @@ public class Filter {
 
     public void setTime(TimeEnum time) {
         this.time = time;
+    }
+
+    public ChartType getChartType() {
+        return chartType;
+    }
+
+    public void setChartType(ChartType chartType) {
+        this.chartType = chartType;
     }
 }

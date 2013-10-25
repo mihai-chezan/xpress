@@ -1,9 +1,11 @@
 package xpress.storage;
 
-import java.util.Map;
+import java.util.List;
+
+import xpress.storage.entity.TagByMood;
 
 public interface TagRepository {
 
-    Map<String, Integer> getTags(Filter filter);
+    List<TagByMood> getTags(Filter filter);
 
 }

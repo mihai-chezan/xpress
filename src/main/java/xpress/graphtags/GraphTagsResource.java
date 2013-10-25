@@ -1,5 +1,6 @@
 package xpress.graphtags;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -13,6 +14,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import xpress.Mood;
 import xpress.TimeEnum;
+import xpress.storage.entity.TagByMood;
 
 import com.google.common.collect.Maps;
 import com.yammer.metrics.annotation.Timed;
@@ -25,7 +27,7 @@ public class GraphTagsResource {
 
     @GET
     @Timed
-    public Map<String, Integer> getTags() {
+    public List<TagByMood> getTags() {
         return tagRetriever.retrieve(TimeEnum.LAST_MONTH);
     }
 
