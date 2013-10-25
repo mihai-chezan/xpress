@@ -9,11 +9,11 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.testng.collections.Lists;
 
 import xpress.Mood;
 import xpress.storage.entity.TagByMood;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 @Component
@@ -34,11 +34,11 @@ public class DBTagRepository implements TagRepository {
         for (Object[] tuple : tuples) {
 
             String tagName = (String) tuple[0];
-            Mood mood = (Mood) tuple[2];
+            Mood mood = Mood.valueOf((String) tuple[2]);
             int frequency = (int) tuple[1];
 
             TagByMood tagByMood = getOrCreateTagByMood(result, tagName);
-            Map<Mood, Integer> frequencyMap = getOrCreateFrquencyMap(tagByMood, mood);
+            Map<Mood, Integer> frequencyMap = getFrquencyMapForMood(tagByMood, mood);
             frequencyMap.put(mood, frequency);
         }
 
@@ -66,15 +66,8 @@ public class DBTagRepository implements TagRepository {
         return tagByMood;
     }
 
-    private Map<Mood, Integer> getOrCreateFrquencyMap(TagByMood tagByMood, Mood mood) {
-        Map<Mood, Integer> frequencyMap;
-        if (tagByMood.getFrequency() == null) {
-            frequencyMap = Maps.newConcurrentMap();
-            tagByMood.setFrequency(frequencyMap);
-        } else {
-            frequencyMap = tagByMood.getFrequency();
-        }
-        return frequencyMap;
+    private Map<Mood, Integer> getFrquencyMapForMood(TagByMood tagByMood, Mood mood) {
+        return tagByMood.getFrequency();
     }
 
 }

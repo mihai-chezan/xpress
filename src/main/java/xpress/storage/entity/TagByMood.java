@@ -4,6 +4,8 @@ import java.util.Map;
 
 import xpress.Mood;
 
+import com.google.common.collect.Maps;
+
 public class TagByMood {
 
     private String tag;
@@ -11,6 +13,13 @@ public class TagByMood {
     private Map<Mood, Integer> frequency;
 
     private Integer totalFrequency;
+
+    public TagByMood() {
+        frequency = Maps.newConcurrentMap();
+        for (Mood mood : Mood.values()) {
+            frequency.put(mood, 0);
+        }
+    }
 
     public String getTag() {
         return tag;
@@ -22,10 +31,6 @@ public class TagByMood {
 
     public Map<Mood, Integer> getFrequency() {
         return frequency;
-    }
-
-    public void setFrequency(Map<Mood, Integer> frequency) {
-        this.frequency = frequency;
     }
 
     public Integer getTotalFrequency() {
