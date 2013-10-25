@@ -67,52 +67,52 @@ INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Fedex Rocks!','HAPPY',1370);
 INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Fedex Rocks!','HAPPY',1370);
 
 
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','NEUTRAL',1077);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','NEUTRAL',1087);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','NEUTRAL',1107);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','NEUTRAL',1127);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','NEUTRAL',1277);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','NEUTRAL',1377);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','NEUTRAL',1477);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','NEUTRAL',1487);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','NEUTRAL',1497);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','NEUTRAL',1500);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','NEUTRAL',1077);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','NEUTRAL',1087);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','NEUTRAL',1107);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','NEUTRAL',1127);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','NEUTRAL',1277);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','NEUTRAL',1377);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','NEUTRAL',1477);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','NEUTRAL',1487);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','NEUTRAL',1497);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','NEUTRAL',1500);
 
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','HAPPY',1077);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','HAPPY',1097);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','HAPPY',1177);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','HAPPY',1277);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','HAPPY',1357);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','HAPPY',1387);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','HAPPY',1477);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','HAPPY',1577);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','HAPPY',1677);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','HAPPY',1777);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','HAPPY',1777);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','HAPPY',1777);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','HAPPY',1777);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','HAPPY',1777);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','HAPPY',1077);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','HAPPY',1097);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','HAPPY',1177);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','HAPPY',1277);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','HAPPY',1357);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','HAPPY',1387);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','HAPPY',1477);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','HAPPY',1577);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','HAPPY',1677);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','HAPPY',1777);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','HAPPY',1777);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','HAPPY',1777);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','HAPPY',1777);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','HAPPY',1777);
 
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','UNHAPPY',1377);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','UNHAPPY',1477);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','UNHAPPY',1577);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','UNHAPPY',1677);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','UNHAPPY',1777);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','UNHAPPY',1787);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','UNHAPPY',1797);
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable charis','NEUTRAL',1997);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','UNHAPPY',1377);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','UNHAPPY',1477);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','UNHAPPY',1577);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','UNHAPPY',1677);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','UNHAPPY',1777);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','UNHAPPY',1787);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','UNHAPPY',1797);
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Comfortable chairs','NEUTRAL',1997);
 
 INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('won at foosball','HAPPY',1382516398186); /*ieri*/
 INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('won at foosball','HAPPY',1382516394186); /*ieri*/
 INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('won at foosball','HAPPY',1382516397186); /*ieri*/
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('fedex','HAPPY',1382516396186); /*ieri*/
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('fedex','HAPPY',1382516396186); /*ieri*/
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('fedex','HAPPY',1382516396186); /*ieri*/
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('fedex','HAPPY',1382516396186); /*ieri*/
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('fedex','HAPPY',1382516396186); /*ieri*/
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('fedex','HAPPY',1382516396186); /*ieri*/
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('fedex','HAPPY',1382516396186); /*ieri*/
-INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('fedex','HAPPY',1382516396186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Fedex Rocks!','HAPPY',1382516396186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Fedex Rocks!','HAPPY',1382516396186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Fedex Rocks!','HAPPY',1382516396186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Fedex Rocks!','HAPPY',1382516396186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Fedex Rocks!','HAPPY',1382516396186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Fedex Rocks!','HAPPY',1382516396186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Fedex Rocks!','HAPPY',1382516396186); /*ieri*/
+INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('Fedex Rocks!','HAPPY',1382516396186); /*ieri*/
 INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('rosia montana','UNHAPPY',1382516374186); /*ieri*/
 INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('rosia montana','UNHAPPY',1382516384186); /*ieri*/
 INSERT INTO VoteEntity(TAG, MOOD, TIME) values ('rosia montana','UNHAPPY',1382516384186); /*ieri*/
